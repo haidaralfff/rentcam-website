@@ -9,6 +9,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login']    = 'Auth/login';
 $route['register'] = 'Auth/register';
 $route['logout']   = 'Auth/logout';
+$route['profile']  = 'Profile/index';
 
 // Public Routes
 $route['produk']              = 'Produk/index';
@@ -42,4 +43,5 @@ $route['superadmin/admin/tambah']          = 'Superadmin/Admin/tambah';
 $route['superadmin/user']                  = 'Admin/User/index';
 $route['superadmin/user/edit/(:num)']      = 'Admin/User/edit/$1';
 $route['superadmin/user/toggle_status/(:num)'] = 'Admin/User/toggle_status/$1';
+$route['superadmin/user/hapus/(:num)'] = 'Admin/User/hapus/$1';
 $route['superadmin/setting']               = 'Superadmin/Setting/index';

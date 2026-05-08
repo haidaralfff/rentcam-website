@@ -1,4 +1,6 @@
-# 📸 RENTCAM — Camera & Drone Rental System
+# 📸 RENTCAM — Modern Camera & Drone Rental System
+
+RENTCAM adalah platform penyewaan kamera dan drone berbasis web yang dirancang dengan antarmuka modern, intuitif, dan responsif. Sistem ini mencakup manajemen inventaris, sistem booking real-time, hingga dashboard analitik untuk pemantauan bisnis yang komprehensif.
 
 ## 👥 Tim Pengembang (Kelompok)
 
@@ -12,101 +14,94 @@
 ## 🚀 Tech Stack
 
 - **Backend**: PHP (CodeIgniter 3)
-- **Database**: MySQL / MariaDB (via XAMPP)
-- **Frontend**: HTML, CSS, JavaScript (Vanilla / Bootstrap)
-- **Design Pattern**: MVC (Model-View-Controller)
+- **Database**: MySQL / MariaDB
+- **Frontend**: HTML5, Vanilla CSS3 (Modern UI), JavaScript (ES6)
+- **Library & Assets**:
+    - **Chart.js**: Untuk visualisasi data pendapatan dan transaksi.
+    - **FontAwesome 5**: Untuk ikonografi yang informatif.
+    - **SweetAlert2**: Untuk popup konfirmasi dan notifikasi premium.
+    - **AOS (Animate On Scroll)**: Untuk animasi transisi halaman yang halus.
+    - **Google Fonts**: Poppins (Heading) & Inter (Body).
 
 ## 📋 Fitur Utama
 
-- **Pengunjung (Guest)**: Menjelajahi katalog produk, melihat detail spesifikasi, dan cek harga sewa.
-- **Penyewa (User/Member)**: Booking online real-time, riwayat penyewaan, upload bukti pembayaran, dan manajemen profil.
-- **Administrator**: Verifikasi pembayaran, manajemen stok alat, update status penyewaan (dipinjam/kembali), dan CRUD data produk.
-- **Super Admin**: Dashboard laporan pendapatan, manajemen akun (Admin & User), serta kendali penuh konfigurasi sistem.
+- **Pengunjung (Guest)**: Menjelajahi katalog produk yang estetik, melihat spesifikasi detail, dan cek ketersediaan alat.
+- **Penyewa (Member)**:
+    - Booking online real-time dengan status transaksi transparan.
+    - Upload bukti pembayaran langsung dari dashboard.
+    - **Manajemen Profil**: Mengubah data diri dan password secara mandiri.
+    - Memberi review/rating pada produk yang telah disewa.
+- **Administrator**:
+    - Dashboard dengan statistik operasional (Stok rendah, Booking harian).
+    - Verifikasi pembayaran dengan sistem review detail.
+    - Manajemen produk (CRUD) dengan kategori dinamis.
+    - Update status penyewaan (Booking -> Dipinjam -> Kembali).
+- **Super Admin**:
+    - **Analitik Bisnis**: Grafik pendapatan bulanan dan performa produk terlaris.
+    - **Personalized Greeting Banner**: Sapaan dinamis berdasarkan waktu (Pagi/Siang/Malam).
+    - Manajemen akun (Admin & User) lengkap dengan fitur hapus & ganti status.
+    - Laporan Keuangan tahunan dengan filter interaktif.
 
 ## ⚙️ Installation & Setup
 
-Follow these steps to get the project running locally:
-
 ### 1. Prerequisites
 - [XAMPP](https://www.apachefriends.org/index.html) (PHP >= 7.4 & MySQL)
-- Web Browser
+- Web Browser (Chrome/Edge recommended)
 
-### 2. Clone the Repository
+### 2. Clone & Setup
 ```bash
+# Clone repository
 git clone <repository-url>
-cd rentcam
+
+# Pindahkan ke folder htdocs
+mv rentcam C:\xampp\htdocs\
 ```
 
-### 3. Configuration
-- Copy `.env.example` to `.env`.
-- Open `application/config/database.php` and ensure the driver is set to `mysqli`.
-- Update your database credentials in the `.env` file (Default XAMPP: root / no password).
+### 3. Database Configuration
+1. Buat database baru bernama `rentcam` di phpMyAdmin.
+2. Import file `database/rentcam.sql` ke database tersebut.
+3. Pastikan konfigurasi di `.env` sudah sesuai:
+   ```env
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASS=
+   DB_NAME=rentcam
+   ```
 
-### 4. Database Setup
-- Open **phpMyAdmin** (`http://localhost/phpmyadmin`).
-- Create a new database named `rentcam`.
-
-
-### 5. Running the Application
-- Open XAMPP Control Panel and start **Apache** and **MySQL**.
-- Place the project folder in `C:\xampp\htdocs\rentcam`.
-- Access the application via:
-  ```
-  http://localhost/rentcam
-  ```
+### 4. Running the App
+Akses melalui browser di: `http://localhost/rentcam`
 
 ## 📂 Project Structure
 
 ```text
 rentcam/
-├── application/          # Core logic (MVC)
-│   ├── config/           # Database & App settings
-│   ├── controllers/      # Route handlers
-│   ├── models/           # Database interactions
-│   └── views/            # UI Templates
-├── assets/               # Static files
-│   ├── css/              # Stylesheets
-│   └── uploads/          # User-uploaded images
-├── system/               # CodeIgniter 3 Core
-├── .env                  # Environment configuration
-├── .gitignore            # Git ignore rules
-└── index.php             # Application entry point
+├── application/          # Inti aplikasi (MVC)
+│   ├── config/           # Pengaturan database, routes, & autoload
+│   ├── controllers/      # Logika aplikasi (Admin, Superadmin, Auth, dll)
+│   ├── models/           # Interaksi database
+│   └── views/            # Template UI (Premium layouts)
+├── assets/               # File statis
+│   ├── css/              # Stylesheet global (Modern Design System)
+│   ├── js/               # Logika frontend
+│   └── uploads/          # Direktori foto produk & bukti bayar
+├── .env                  # Konfigurasi environment (Private)
+└── index.php             # Entry point aplikasi
 ```
 
-- `application/`: Contains the main source code of the application following the MVC pattern.
-- `assets/`: Stores all frontend assets such as CSS, Javascript, and user uploads.
-- `system/`: The core framework files of CodeIgniter 3.
-- `.env`: Configuration file for environment-specific variables like database credentials.
 ## 🔐 Credentials (Default)
 
-Berikut adalah kredensial untuk login ke sistem:
+| Role | Email | Password |
+|---|---|---|
+| **Super Admin** | `superadmin@gmail.com` | `superadmin123` |
+| **Admin** | `admin@gmail.com` | `admin1234` |
+| **Member** | `user@gmail.com` | `user123` |
 
-### Super Admin
-- **Email**: `[EMAIL_ADDRESS]`
-- **Password**: `admin123`
+## 🖼️ UI Highlights
 
-### User
-- **Email**: `[EMAIL_ADDRESS]`
-- **Password**: `user123`
-
-### Admin
-- **Email**: `admin1@gmail.com`
-- **Password**: `admin1234`
-
-## 🖼️ UI Preview
-
-Berikut adalah tampilan antarmuka utama dari platform RENTCAM:
-
-![Home Page Preview](assets/mockup/image.png)
-
-## 🤝 Contributing
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Sistem RENTCAM kini hadir dengan desain **Modern Dark Mode Sidebar** dan **Dashboard Analytics**:
+- **Personalized Banner**: Banner sapaan dengan gradien elegan.
+- **Responsive Charts**: Visualisasi data transaksi yang adaptif di berbagai perangkat.
+- **Premium Alerts**: Konfirmasi logout dan hapus user menggunakan SweetAlert2.
 
 ---
-
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Produk extends Guest_Controller
+class Produk extends MY_Controller
 {
     public function __construct()
     {

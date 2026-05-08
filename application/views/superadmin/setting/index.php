@@ -2,7 +2,7 @@
 <div class="layout-wrapper">
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
-        <div class="topbar"><span class="topbar-title">Pengaturan Sistem</span></div>
+        <div class="topbar"><span class="topbar-title"><i class="fas fa-cog" style="color:var(--primary);margin-right:8px;"></i>Pengaturan Sistem</span></div>
         <div class="page-content">
             <div class="card" style="max-width:600px">
                 <div class="card-header"><span class="card-title">Informasi Sistem</span></div>

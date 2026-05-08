@@ -62,4 +62,11 @@ class User extends Superadmin_Controller
         $this->session->set_flashdata('success', 'Status user berhasil diubah.');
         redirect('superadmin/user');
     }
+
+    public function hapus($id)
+    {
+        $this->db->where('id', $id)->delete('users');
+        $this->session->set_flashdata('success', 'User berhasil dihapus.');
+        redirect('superadmin/user');
+    }
 }

@@ -3,7 +3,7 @@
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
         <div class="topbar">
-            <span class="topbar-title">Verifikasi Pembayaran</span>
+            <span class="topbar-title"><i class="fas fa-credit-card" style="color:var(--primary);margin-right:8px;"></i>Verifikasi Pembayaran</span>
         </div>
         <div class="page-content">
             <?php if ($this->session->flashdata('success')): ?>

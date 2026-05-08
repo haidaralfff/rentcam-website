@@ -3,8 +3,10 @@
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
         <div class="topbar">
-            <span class="topbar-title">Manajemen Produk</span>
-            <a href="<?= site_url('admin/produk/tambah') ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Produk</a>
+            <span class="topbar-title"><i class="fas fa-boxes" style="color:var(--primary);margin-right:8px;"></i>Manajemen Produk</span>
+            <a href="<?= site_url('admin/produk/tambah') ?>" class="btn btn-primary btn-sm" style="padding:8px 16px; border-radius:10px; font-weight:600;">
+                <i class="fas fa-plus-circle"></i> Tambah Produk
+            </a>
         </div>
         <div class="page-content">
             <?php if ($this->session->flashdata('success')): ?>

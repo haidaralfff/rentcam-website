@@ -17,10 +17,11 @@ graph TD
     Katalog -->|3. Pilih Alat| Detail[Detail & Stok]
     Detail -->|4. Isi Form| Booking[Form Booking]
     Booking -->|5. Transfer| Bayar[Upload Bukti Bayar]
+    User -.->|Manajemen| Profile[Profil Saya]
     
     %% Admin Flow
-    Bayar -->|6. Notifikasi| A_Check{Cek Pembayaran}
-    Admin -->|Kelola| A_Check
+    Bayar -->|6. Notifikasi| A_Check{Verifikasi Pembayaran}
+    Admin -->|Kelola Dashboard| A_Check
     A_Check -- Tolak --> User
     A_Check -- Setujui --> Verified[Status: Dibayar]
     Verified -->|7. Ambil Alat| InProgress[Status: Disewa]
@@ -28,8 +29,10 @@ graph TD
     Done -->|9. Review| User
 
     %% Super Admin Flow
-    SAdmin -->|Monitor| Dash[Dashboard Laporan]
-    SAdmin -->|Kelola| Acc[Manajemen Akun Admin]
+    SAdmin -->|Monitor| Dash[Dashboard Analytics]
+    SAdmin -->|Kelola| Acc[Manajemen Admin & User]
+    Acc -->|Fitur| Delete[Hapus User/Admin]
+    Dash -->|Filter| Laporan[Laporan Keuangan]
     Dash -->|Analisis| Optimization[Optimasi Bisnis]
 ```
 
@@ -38,30 +41,38 @@ graph TD
 ## 👥 Peran & Tanggung Jawab
 
 ### 1. User (Penyewa)
-*   **Registrasi & Autentikasi**: Membuat akun dan mengelola profil pribadi.
-*   **Eksplorasi**: Mencari kamera atau drone berdasarkan kategori dan ketersediaan stok.
-*   **Booking**: Menentukan durasi sewa dan jumlah unit.
-*   **Transaksi**: Mengunggah bukti transfer bank untuk diverifikasi.
-*   **Feedback**: Memberikan rating dan ulasan setelah masa sewa berakhir.
+*   **Registrasi & Autentikasi**: Membuat akun untuk mengakses fitur booking.
+*   **Manajemen Profil**: Mengubah data diri, email, dan password melalui halaman **Profil Saya**.
+*   **Eksplorasi**: Mencari kamera atau drone berdasarkan kategori (Camera/Drone) dan ketersediaan stok.
+*   **Booking**: Menentukan durasi sewa. Sistem akan otomatis menghitung total harga berdasarkan tarif per hari.
+*   **Transaksi**: Mengunggah bukti transfer bank. Status transaksi akan berubah menjadi "Menunggu Verifikasi".
+*   **Feedback**: Memberikan rating dan ulasan setelah transaksi berstatus "Selesai".
 
 ### 2. Admin (Operator)
-*   **Inventory Control**: Menambah, mengubah, atau menonaktifkan produk di katalog.
-*   **Verifikasi**: Memvalidasi bukti transfer yang diunggah oleh user.
-*   **Operasional**: Mengubah status transaksi dari "Menunggu" -> "Dibayar" -> "Disewa" -> "Selesai".
-*   **Stock Management**: Sistem secara otomatis mengurangi stok saat booking divalidasi dan mengembalikannya saat transaksi selesai.
+*   **Dashboard Operasional**: Memantau statistik booking harian, pembayaran pending, dan peringatan stok rendah.
+*   **Inventory Control**: Manajemen produk (CRUD), upload foto alat, dan pengaturan status (Tersedia/Tidak Tersedia).
+*   **Verifikasi**: Meninjau bukti transfer. Admin dapat menyetujui atau menolak pembayaran berdasarkan validitas bukti.
+*   **Siklus Sewa**: Memperbarui tahapan sewa secara manual dari "Dibayar" (diambil) menjadi "Disewa", lalu menjadi "Selesai" (dikembalikan).
+*   **Stock Management**: Stok alat akan berkurang otomatis saat booking disetujui dan bertambah kembali saat alat dikembalikan.
 
 ### 3. Super Admin (Manajemen)
-*   **Overview**: Memantau grafik pendapatan dan statistik produk paling laris.
-*   **Account Management**: Menambah atau menghapus akun Admin operasional.
-*   **Reporting**: Mengunduh atau melihat laporan transaksi secara keseluruhan untuk kebutuhan audit.
+*   **Business Intelligence**: Dashboard analitik dengan grafik Chart.js untuk memantau pendapatan bulanan dan tren produk terlaris.
+*   **Greeting Banner**: Dashboard personal dengan sapaan dinamis sesuai waktu login (Pagi/Siang/Sore/Malam).
+*   **Account Control**: 
+    *   **Kelola Admin**: Menambah atau menghapus akun Admin operasional.
+    *   **Manajemen User**: Mengaktifkan/menonaktifkan (suspend) user atau menghapus akun secara permanen.
+*   **Financial Reporting**: Akses ke laporan keuangan tahunan dengan filter tahun untuk audit pendapatan bisnis.
 
 ---
 
 ## 🛠️ Status Transaksi
+
 Sistem menggunakan *state management* untuk melacak setiap tahapan sewa:
-1.  **Pending**: User sudah booking, tapi belum bayar/upload bukti.
-2.  **Menunggu Verifikasi**: Bukti sudah diunggah, menunggu persetujuan Admin.
-3.  **Dibayar**: Pembayaran sah, alat siap diambil.
-4.  **Disewa**: Alat sedang di tangan user (Masa sewa aktif).
-5.  **Selesai**: Alat sudah kembali, transaksi ditutup.
-6.  **Dibatalkan**: Transaksi dibatalkan oleh user atau admin.
+1.  **Pending**: Tahap awal setelah booking. Menunggu user mengunggah bukti bayar.
+2.  **Confirmed (Dibayar)**: Pembayaran telah diverifikasi admin. Alat siap diambil oleh penyewa.
+3.  **Dipinjam (InProgress)**: Alat sudah berada di tangan penyewa. Masa sewa sedang berjalan.
+4.  **Kembali (Selesai)**: Alat sudah dikembalikan dalam kondisi baik. Transaksi ditutup.
+5.  **Batal (Cancelled)**: Transaksi dibatalkan sebelum proses verifikasi atau karena bukti tidak valid.
+
+---
+

@@ -2,7 +2,7 @@
 <div class="layout-wrapper">
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
-        <div class="topbar"><span class="topbar-title">Manajemen User</span></div>
+        <div class="topbar"><span class="topbar-title"><i class="fas fa-users" style="color:var(--primary);margin-right:8px;"></i>Manajemen User</span></div>
         <div class="page-content">
             <?php if ($this->session->flashdata('success')): ?>
             <div class="alert alert-success"><i class="fas fa-check-circle"></i> <?= $this->session->flashdata('success') ?></div>
@@ -44,6 +44,9 @@
                                         <a href="<?= site_url('superadmin/user/toggle_status/'.$u->id) ?>" class="btn btn-sm <?= $u->status ? 'btn-danger' : 'btn-success' ?>" onclick="return confirm('Ubah status user?')">
                                             <i class="fas fa-<?= $u->status ? 'ban' : 'check' ?>"></i>
                                         </a>
+                                        <a href="<?= site_url('superadmin/user/hapus/'.$u->id) ?>" class="btn btn-danger btn-sm btn-delete-user" data-nama="<?= htmlspecialchars($u->nama) ?>">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -55,4 +58,37 @@
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.btn-delete-user').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const nama = this.getAttribute('data-nama');
+        
+        Swal.fire({
+            title: 'Hapus User?',
+            text: `Apakah Anda yakin ingin menghapus user "${nama}" secara permanen?`,
+            icon: 'warning',
+            iconColor: '#EF4444',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+</script>
+
 <?php $this->load->view('templates/footer'); ?>

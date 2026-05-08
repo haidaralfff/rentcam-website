@@ -79,15 +79,20 @@ $role_label    = $role === 'superadmin' ? 'Super Admin' : ucfirst($role);
     <!-- Quick Links -->
     <div class="sidebar-section-title">Lainnya</div>
     <ul class="sidebar-nav">
+        <li>
+            <a href="<?= site_url('profile') ?>" class="<?= $current === 'profile' ? 'active' : '' ?>">
+                <i class="fas fa-user-circle"></i> Profil Saya
+            </a>
+        </li>
         <li><a href="<?= site_url('logout') ?>" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 
     <!-- User Info -->
-    <div class="sidebar-user">
+    <a href="<?= site_url('profile') ?>" class="sidebar-user" style="text-decoration:none; display:flex; align-items:center; gap:10px; transition: var(--transition);">
         <div class="sidebar-avatar"><?= strtoupper(substr($nama, 0, 1)) ?></div>
         <div>
             <div class="sidebar-user-name"><?= htmlspecialchars($nama) ?></div>
             <div class="sidebar-user-role"><?= $role_label ?></div>
         </div>
-    </div>
+    </a>
 </aside>

@@ -2,7 +2,7 @@
 <div class="layout-wrapper">
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
-        <div class="topbar"><span class="topbar-title">Laporan Keuangan</span></div>
+        <div class="topbar"><span class="topbar-title"><i class="fas fa-file-alt" style="color:var(--primary);margin-right:8px;"></i>Laporan Keuangan</span></div>
         <div class="page-content">
             <div class="card mb-4">
                 <div class="card-header">

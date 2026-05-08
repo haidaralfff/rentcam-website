@@ -2,7 +2,7 @@
 <div class="layout-wrapper">
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
-        <div class="topbar"><span class="topbar-title">Manajemen Booking</span></div>
+        <div class="topbar"><span class="topbar-title"><i class="fas fa-calendar-alt" style="color:var(--primary);margin-right:8px;"></i>Manajemen Booking</span></div>
         <div class="page-content">
             <?php if ($this->session->flashdata('success')): ?>
             <div class="alert alert-success"><i class="fas fa-check-circle"></i> <?= $this->session->flashdata('success') ?></div>

@@ -39,8 +39,8 @@
                     </a>
                 </div>
             <?php else: ?>
-                <a href="<?= site_url('login') ?>"    class="btn btn-outline-white btn-sm">Login</a>
-                <a href="<?= site_url('register') ?>" class="btn btn-primary btn-sm">Daftar</a>
+                <a href="<?= site_url('login') ?>" class="btn btn-outline-white" style="padding:9px 20px; font-size:13px; font-weight:600;"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="<?= site_url('register') ?>" class="btn btn-primary" style="padding:9px 20px; font-size:13px; font-weight:600;"><i class="fas fa-user-plus"></i> Daftar</a>
             <?php endif; ?>
         </div>
     </div>

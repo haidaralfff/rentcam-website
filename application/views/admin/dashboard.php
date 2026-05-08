@@ -2,13 +2,22 @@
 <div class="layout-wrapper">
     <?php $this->load->view('templates/sidebar'); ?>
     <div class="main-content">
+        <?php
+        $cu  = current_user();
+        $jam = (int) date('H');
+        if ($jam >= 5  && $jam < 12) $salam = 'Selamat Pagi';
+        elseif ($jam >= 12 && $jam < 15) $salam = 'Selamat Siang';
+        elseif ($jam >= 15 && $jam < 19) $salam = 'Selamat Sore';
+        else $salam = 'Selamat Malam';
+        ?>
+
         <!-- Topbar -->
         <div class="topbar">
             <div class="d-flex align-center gap-2">
                 <button id="sidebar-toggle" style="background:none;border:none;cursor:pointer;font-size:18px;color:#64748B;display:none" class="sidebar-toggle-btn">
                     <i class="fas fa-bars"></i>
                 </button>
-                <span class="topbar-title"><?= isset($title) ? htmlspecialchars($title) : 'Dashboard' ?></span>
+                <span class="topbar-title"><i class="fas fa-tachometer-alt" style="color:var(--primary);margin-right:8px;"></i>Admin Panel</span>
             </div>
             <div class="topbar-actions">
                 <a href="<?= site_url('admin/pembayaran') ?>" class="topbar-badge" title="Verifikasi Pembayaran">
@@ -23,7 +32,6 @@
             </div>
         </div>
 
-        <!-- Page Content -->
         <div class="page-content">
             <!-- Flash Messages -->
             <?php if ($this->session->flashdata('success')): ?>
@@ -33,11 +41,38 @@
             <div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> <?= $this->session->flashdata('error') ?></div>
             <?php endif; ?>
 
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Dashboard Admin</h1>
-                <p class="page-subtitle">Selamat datang, <?= htmlspecialchars($this->session->userdata('nama')) ?>!</p>
+            <!-- ── Greeting Banner ── -->
+            <div class="greeting-banner page-header" style="margin-bottom:24px;">
+                <div class="greeting-deco greeting-deco-1"></div>
+                <div class="greeting-deco greeting-deco-2"></div>
+
+                <div class="greeting-inner">
+                    <div class="greeting-avatar">
+                        <?= strtoupper(substr($cu['nama'], 0, 1)) ?>
+                    </div>
+                    <div class="greeting-text">
+                        <p class="greeting-sub">
+                            <i class="fas fa-sun"></i>
+                            <?= $salam ?>, selamat datang kembali!
+                        </p>
+                        <h1 class="greeting-name"><?= htmlspecialchars($cu['nama']) ?></h1>
+                        <div class="greeting-meta">
+                            <span><i class="fas fa-user-shield"></i> Admin Panel</span>
+                            <span><i class="fas fa-calendar-alt"></i> <?= date('l, d F Y') ?></span>
+                            <span><i class="fas fa-clock"></i> <?= date('H:i') ?> WIB</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Alert Pending -->
+            <?php if ($summary['pending_bayar'] > 0): ?>
+            <div class="alert alert-warning mb-4" style="border-radius:12px; border:1px solid #FEF08A; background:#FFFBEB; color:#854D0E;">
+                <i class="fas fa-exclamation-triangle" style="margin-right:8px"></i>
+                Ada <strong><?= $summary['pending_bayar'] ?></strong> pembayaran menunggu verifikasi.
+                <a href="<?= site_url('admin/pembayaran') ?>" style="font-weight:700;margin-left:8px;color:#B45309">Verifikasi Sekarang →</a>
+            </div>
+            <?php endif; ?>
 
             <!-- Stats Grid -->
             <div class="grid grid-4 mb-4">
@@ -63,36 +98,27 @@
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="stat-icon blue"><i class="fas fa-money-bill-wave"></i></div>
                     <div class="stat-info">
-                        <div class="stat-value" style="font-size:17px"><?= rupiah($summary['total_pendapatan']) ?></div>
+                        <div class="stat-value" style="font-size:16px"><?= rupiah($summary['total_pendapatan']) ?></div>
                         <div class="stat-label">Total Pendapatan</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Alert Pending -->
-            <?php if ($summary['pending_bayar'] > 0): ?>
-            <div class="alert alert-warning mb-4">
-                <i class="fas fa-exclamation-triangle"></i>
-                Ada <strong><?= $summary['pending_bayar'] ?></strong> pembayaran menunggu verifikasi.
-                <a href="<?= site_url('admin/pembayaran') ?>" style="font-weight:700;margin-left:8px">Verifikasi Sekarang →</a>
-            </div>
-            <?php endif; ?>
-
             <!-- Charts -->
-            <div class="grid grid-3 mb-4">
+            <div class="chart-dashboard-grid mb-4">
                 <div class="card">
                     <div class="card-header"><span class="card-title">Booking 14 Hari Terakhir</span></div>
-                    <div class="card-body" style="height: 180px;"><canvas id="bookingChart"></canvas></div>
+                    <div class="card-body" style="height: 160px;"><canvas id="bookingChart"></canvas></div>
                 </div>
                 <div class="card">
                     <div class="card-header"><span class="card-title">Pembayaran per Status</span></div>
-                    <div class="card-body" style="height: 180px;"><canvas id="paymentChart"></canvas></div>
+                    <div class="card-body" style="height: 160px;"><canvas id="paymentChart"></canvas></div>
                 </div>
                 <div class="card">
                     <div class="card-header"><span class="card-title">Stok Rendah</span></div>
-                    <div class="card-body" style="height: 180px;"><canvas id="stockChart"></canvas></div>
+                    <div class="card-body" style="height: 160px;"><canvas id="stockChart"></canvas></div>
                 </div>
             </div>
 
@@ -157,9 +183,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </div><!-- /.page-content -->
+    </div><!-- /.main-content -->
+</div><!-- /.layout-wrapper -->
 
 <script>
 const bookingRaw = <?= json_encode($booking_harian) ?>;
@@ -202,7 +228,7 @@ new Chart(document.getElementById('bookingChart'), {
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-            y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#F1F5F9' } },
+            y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#F1F5F9' } },
             x: { grid: { display: false }, ticks: { font: { size: 10 } } }
         }
     }
@@ -248,7 +274,7 @@ new Chart(document.getElementById('stockChart'), {
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-            y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#F1F5F9' } },
+            y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#F1F5F9' } },
             x: { grid: { display: false }, ticks: { font: { size: 10 } } }
         }
     }
