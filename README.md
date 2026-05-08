@@ -1,6 +1,13 @@
 # 📸 RENTCAM — Camera & Drone Rental System
 
-RENTCAM is a web-based rental system designed for booking cameras and drones. It features manual payment verification, stock control, and multi-level user access (User, Admin, Super Admin).
+## 👥 Tim Pengembang (Kelompok)
+
+| Nama | NIM | Kelas |
+|---|---|---|
+| Nama Anggota 1 | NIM_ANDA_1 | KELAS_ANDA |
+| Nama Anggota 2 | NIM_ANDA_2 | KELAS_ANDA |
+| Nama Anggota 3 | NIM_ANDA_3 | KELAS_ANDA |
+| Nama Anggota 4 | NIM_ANDA_4 | KELAS_ANDA |
 
 ## 🚀 Tech Stack
 
@@ -9,11 +16,12 @@ RENTCAM is a web-based rental system designed for booking cameras and drones. It
 - **Frontend**: HTML, CSS, JavaScript (Vanilla / Bootstrap)
 - **Design Pattern**: MVC (Model-View-Controller)
 
-## 📋 Features
+## 📋 Fitur Utama
 
-- **User/Member**: Browse products, online booking, upload payment proof, review products.
-- **Admin**: Product management (CRUD), payment verification, rental status updates, stock control.
-- **Super Admin**: Reporting dashboard, admin management, system configuration.
+- **Pengunjung (Guest)**: Menjelajahi katalog produk, melihat detail spesifikasi, dan cek harga sewa.
+- **Penyewa (User/Member)**: Booking online real-time, riwayat penyewaan, upload bukti pembayaran, dan manajemen profil.
+- **Administrator**: Verifikasi pembayaran, manajemen stok alat, update status penyewaan (dipinjam/kembali), dan CRUD data produk.
+- **Super Admin**: Dashboard laporan pendapatan, manajemen akun (Admin & User), serta kendali penuh konfigurasi sistem.
 
 ## ⚙️ Installation & Setup
 
@@ -71,8 +79,25 @@ rentcam/
 - `.env`: Configuration file for environment-specific variables like database credentials.
 ## 🔐 Credentials (Default)
 
-- **Super Admin**: admin@rentcam.com / password123
-- **User**: member@gmail.com / password123
+Berikut adalah kredensial untuk login ke sistem:
+
+### Super Admin
+- **Email**: `[EMAIL_ADDRESS]`
+- **Password**: `admin123`
+
+### User
+- **Email**: `[EMAIL_ADDRESS]`
+- **Password**: `user123`
+
+### Admin
+- **Email**: `admin1@gmail.com`
+- **Password**: `admin1234`
+
+## 🖼️ UI Preview
+
+Berikut adalah tampilan antarmuka utama dari platform RENTCAM:
+
+![Home Page Preview](assets/mockup/image.png)
 
 ## 🤝 Contributing
 
