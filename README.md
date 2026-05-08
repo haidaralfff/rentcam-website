@@ -45,7 +45,7 @@ cd rentcam
 ### 4. Database Setup
 - Open **phpMyAdmin** (`http://localhost/phpmyadmin`).
 - Create a new database named `rentcam`.
-- Import or execute the SQL schema found in `prompt/project_plan.md` to create the tables.
+
 
 ### 5. Running the Application
 - Open XAMPP Control Panel and start **Apache** and **MySQL**.
