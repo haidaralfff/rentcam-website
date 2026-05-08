@@ -47,14 +47,14 @@
             <div class="grid grid-2">
                 <div class="card">
                     <div class="card-header"><span class="card-title">Pendapatan Bulanan (<?= date('Y') ?>)</span></div>
-                    <div class="card-body">
-                        <canvas id="revenueChart" height="250"></canvas>
+                    <div class="card-body" style="height: 220px;">
+                        <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header"><span class="card-title">Transaksi per Status</span></div>
-                    <div class="card-body">
-                        <canvas id="bookingStatusChart" height="250"></canvas>
+                    <div class="card-body" style="height: 220px;">
+                        <canvas id="bookingStatusChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -62,8 +62,8 @@
             <div class="grid grid-2" style="margin-top:24px">
                 <div class="card">
                     <div class="card-header"><span class="card-title">Produk Terlaris</span></div>
-                    <div class="card-body">
-                        <canvas id="topProdukChart" height="250"></canvas>
+                    <div class="card-body" style="height: 220px;">
+                        <canvas id="topProdukChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -105,6 +105,7 @@ new Chart(ctx, {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
             y: {
@@ -129,7 +130,17 @@ new Chart(document.getElementById('bookingStatusChart'), {
             borderWidth: 0,
         }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { 
+        responsive: true, 
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { 
+                position: 'bottom',
+                labels: { boxWidth: 12, font: { size: 11 } }
+            } 
+        },
+        layout: { padding: { top: 10, bottom: 10 } }
+    }
 });
 
 new Chart(document.getElementById('topProdukChart'), {
@@ -146,6 +157,7 @@ new Chart(document.getElementById('topProdukChart'), {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#F1F5F9' } },

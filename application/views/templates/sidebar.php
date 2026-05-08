@@ -3,7 +3,7 @@ $role    = normalize_role($this->session->userdata('role'));
 $nama    = $this->session->userdata('nama');
 $current = uri_string();
 
-$is_admin      = in_array($role, ['admin', 'superadmin']);
+$is_admin      = $role === 'admin';
 $is_superadmin = $role === 'superadmin';
 $role_label    = $role === 'superadmin' ? 'Super Admin' : ucfirst($role);
 ?>
@@ -79,8 +79,7 @@ $role_label    = $role === 'superadmin' ? 'Super Admin' : ucfirst($role);
     <!-- Quick Links -->
     <div class="sidebar-section-title">Lainnya</div>
     <ul class="sidebar-nav">
-        <li><a href="<?= base_url() ?>"><i class="fas fa-globe"></i> Lihat Website</a></li>
-        <li><a href="<?= site_url('logout') ?>"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><a href="<?= site_url('logout') ?>" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 
     <!-- User Info -->

@@ -1,3 +1,4 @@
+<?php if (in_array($this->uri->segment(1), ['login', 'register'])) return; ?>
 <nav class="navbar">
     <a href="<?= base_url() ?>" class="navbar-brand">
         <div class="navbar-brand-icon"><i class="fas fa-camera"></i></div>
@@ -33,7 +34,7 @@
                     <div class="sidebar-avatar" style="width:34px;height:34px;font-size:13px;background:var(--primary);color:#fff"><?= strtoupper(substr($cu['nama'],0,1)) ?></div>
                     <span class="user-name" style="font-weight:600;font-size:13px;margin-right:10px;color:#fff"><?= htmlspecialchars($cu['nama']) ?></span>
                     
-                    <a href="<?= site_url('logout') ?>" class="btn btn-outline-white btn-sm" title="Logout">
+                    <a href="<?= site_url('logout') ?>" class="btn btn-outline-white btn-sm logout-link" title="Logout">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </div>

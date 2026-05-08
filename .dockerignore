@@ -1,0 +1,13 @@
+.git
+.dockerignore
+docker-compose.yml
+Dockerfile
+node_modules
+docker-data
+application/logs/*.html
+application/cache/*
+!application/cache/index.html
+assets/uploads/*
+!assets/uploads/index.html
+.env
+README.md

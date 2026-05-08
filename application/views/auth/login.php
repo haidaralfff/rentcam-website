@@ -23,7 +23,10 @@
         </div>
         <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                <i class="fas fa-eye password-toggle" data-target="login-password"></i>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:4px">
             <i class="fas fa-sign-in-alt"></i> Masuk

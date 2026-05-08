@@ -23,11 +23,17 @@
         </div>
         <div class="form-group">
             <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="reg-password" class="form-control" placeholder="Minimal 6 karakter" required>
+                <i class="fas fa-eye password-toggle" data-target="reg-password"></i>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label">Konfirmasi Password</label>
-            <input type="password" name="confirm" class="form-control" placeholder="Ulangi password" required>
+            <div class="password-wrapper">
+                <input type="password" name="confirm" id="reg-confirm" class="form-control" placeholder="Ulangi password" required>
+                <i class="fas fa-eye password-toggle" data-target="reg-confirm"></i>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:4px">
             <i class="fas fa-user-plus"></i> Daftar Sekarang

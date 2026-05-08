@@ -1,91 +1,104 @@
 <?php $this->load->view('templates/header'); ?>
 <?php $this->load->view('templates/navbar'); ?>
 
-<div style="max-width:1000px;margin:40px auto;padding:0 20px">
-    <a href="<?= site_url('produk') ?>" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#64748B;margin-bottom:20px"><i class="fas fa-arrow-left"></i> Kembali ke Katalog</a>
-
-    <div class="grid grid-2" style="gap:32px;align-items:start">
-        <!-- Gambar -->
-        <div class="card" style="overflow:hidden">
-            <?php if ($produk->foto): ?>
-            <img src="<?= base_url('assets/uploads/produk/'.$produk->foto) ?>" alt="<?= htmlspecialchars($produk->nama) ?>" style="width:100%;aspect-ratio:4/3;object-fit:cover">
-            <?php else: ?>
-            <div style="height:280px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);display:flex;align-items:center;justify-content:center;font-size:80px;color:#93C5FD">
-                <i class="fas fa-<?= $produk->kategori === 'drone' ? 'helicopter' : 'camera' ?>"></i>
-            </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- Info -->
-        <div>
-            <div class="produk-card-kategori mb-2"><i class="fas fa-tag"></i> <?= ucfirst($produk->kategori) ?></div>
-            <h1 style="font-size:24px;font-weight:800;margin-bottom:8px"><?= htmlspecialchars($produk->nama) ?></h1>
-
-            <!-- Rating -->
-            <?php if ($rating > 0): ?>
-            <div class="d-flex align-center gap-2 mb-2">
-                <span class="stars"><?= str_repeat('★', round($rating)) ?><?= str_repeat('☆', 5 - round($rating)) ?></span>
-                <span style="font-size:14px;font-weight:600"><?= $rating ?>/5</span>
-                <span style="font-size:12px;color:#64748B">(<?= count($reviews) ?> ulasan)</span>
-            </div>
-            <?php endif; ?>
-
-            <div style="font-size:28px;font-weight:800;color:#2563EB;margin:16px 0"><?= rupiah($produk->harga_per_hari) ?><span style="font-size:14px;font-weight:400;color:#64748B"> /hari</span></div>
-
-            <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:16px;margin-bottom:20px">
-                <p style="font-size:12px;font-weight:700;color:#64748B;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Spesifikasi</p>
-                <p style="font-size:13px;color:#374151;line-height:1.7"><?= nl2br(htmlspecialchars($produk->spesifikasi)) ?></p>
-            </div>
-
-            <div class="d-flex align-center gap-2 mb-4">
-                <span style="font-size:13px;color:#64748B">Ketersediaan:</span>
-                <span style="font-weight:700;color:<?= $produk->stok > 0 ? '#22C55E' : '#EF4444' ?>">
-                    <i class="fas fa-circle" style="font-size:8px"></i>
-                    <?= $produk->stok > 0 ? 'Tersedia (' . $produk->stok . ' unit)' : 'Stok Habis' ?>
-                </span>
-            </div>
-
-            <?php if ($produk->stok > 0): ?>
-            <?php if (is_logged_in()): ?>
-            <a href="<?= site_url('booking/form/'.$produk->id) ?>" class="btn btn-primary btn-lg btn-block" style="margin-bottom:10px">
-                <i class="fas fa-calendar-plus"></i> Sewa Sekarang
+<div style="background: #F8FAFC; min-height: 100vh; padding: 24px 0;">
+    <div style="max-width:1000px; margin:0 auto; padding:0 20px">
+        <!-- Breadcrumb -->
+        <nav style="margin-bottom: 24px;" data-aos="fade-right">
+            <a href="<?= site_url('produk') ?>" style="display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#64748B; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#2563EB'" onmouseout="this.style.color='#64748B'">
+                <i class="fas fa-chevron-left" style="font-size: 9px;"></i> Kembali ke Katalog
             </a>
-            <?php else: ?>
-            <a href="<?= site_url('login') ?>" class="btn btn-primary btn-lg btn-block" style="margin-bottom:10px">
-                <i class="fas fa-sign-in-alt"></i> Login untuk Sewa
-            </a>
-            <?php endif; ?>
-            <?php else: ?>
-            <button class="btn btn-lg btn-block" style="background:#E2E8F0;color:#94A3B8;cursor:not-allowed" disabled>
-                <i class="fas fa-ban"></i> Stok Habis
-            </button>
-            <?php endif; ?>
-        </div>
-    </div>
+        </nav>
 
-    <!-- Reviews -->
-    <?php if (!empty($reviews)): ?>
-    <div class="card mt-3">
-        <div class="card-header"><span class="card-title">Ulasan Pelanggan (<?= count($reviews) ?>)</span></div>
-        <div class="card-body" style="padding:0">
-            <?php foreach ($reviews as $r): ?>
-            <div style="padding:20px;border-bottom:1px solid #E2E8F0">
-                <div class="d-flex align-center justify-between mb-2">
-                    <div class="d-flex align-center gap-2">
-                        <div class="sidebar-avatar" style="width:34px;height:34px;font-size:13px"><?= strtoupper(substr($r->nama_user,0,1)) ?></div>
-                        <div>
-                            <div style="font-size:13px;font-weight:700"><?= htmlspecialchars($r->nama_user) ?></div>
-                            <div class="stars" style="font-size:12px"><?= str_repeat('★',$r->rating) ?><?= str_repeat('☆',5-$r->rating) ?></div>
+        <!-- Product Grid -->
+        <div class="product-detail-grid">
+            <!-- Left: Product Image -->
+            <div data-aos="fade-up">
+                <div class="card" style="border-radius:20px; overflow:hidden; border:none; box-shadow: 0 12px 30px rgba(0,0,0,0.08);">
+                    <?php if ($produk->foto): ?>
+                        <img src="<?= base_url('assets/uploads/produk/'.$produk->foto) ?>" alt="<?= htmlspecialchars($produk->nama) ?>" style="width:100%; aspect-ratio:1/1; object-fit:cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <?php else: ?>
+                        <div style="aspect-ratio:1/1; background:linear-gradient(135deg,#EFF6FF,#DBEAFE); display:flex; align-items:center; justify-content:center; font-size:80px; color:#93C5FD">
+                            <i class="fas fa-<?= $produk->kategori === 'drone' ? 'helicopter' : 'camera' ?>"></i>
                         </div>
-                    </div>
-                    <span style="font-size:11px;color:#94A3B8"><?= tgl_indo(date('Y-m-d',strtotime($r->created_at))) ?></span>
+                    <?php endif; ?>
                 </div>
-                <p style="font-size:13px;color:#374151"><?= htmlspecialchars($r->komentar) ?></p>
             </div>
-            <?php endforeach; ?>
+
+            <!-- Right: Product Info -->
+            <div data-aos="fade-left">
+                <div style="display:inline-block; padding:4px 12px; border-radius:100px; background:rgba(37, 99, 235, 0.1); color:#2563EB; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
+                    <i class="fas fa-tag"></i> <?= $produk->kategori ?>
+                </div>
+                
+                <h1 style="font-family:'Poppins', sans-serif; font-size:26px; font-weight:800; color:#0F172A; margin-bottom:16px; line-height:1.2;"><?= htmlspecialchars($produk->nama) ?></h1>
+
+                <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:24px;">
+                    <span style="font-size:28px; font-weight:800; color:#2563EB; font-family:'Poppins', sans-serif;"><?= rupiah($produk->harga_per_hari) ?></span>
+                    <span style="font-size:14px; color:#64748B;">/ hari</span>
+                </div>
+
+                <!-- Specifications Card -->
+                <div style="background:#fff; border-radius:16px; padding:20px; border:1px solid #E2E8F0; margin-bottom:24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);">
+                    <h4 style="font-family:'Poppins', sans-serif; font-size:12px; font-weight:800; color:#0F172A; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-list-ul" style="color:#2563EB"></i> Spesifikasi Utama
+                    </h4>
+                    <div style="display:grid; gap:8px;">
+                        <?php 
+                        $specs = explode("\n", $produk->spesifikasi);
+                        foreach($specs as $spec): 
+                            if(trim($spec) == "") continue;
+                        ?>
+                        <div style="display:flex; align-items:start; gap:8px; font-size:13px; color:#475569; line-height:1.5;">
+                            <i class="fas fa-check-circle" style="color:#22C55E; margin-top:2px; font-size:13px;"></i>
+                            <span><?= htmlspecialchars(ltrim(trim($spec), '-')) ?></span>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Availability & Action -->
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-left:4px;">
+                    <div style="width:8px; height:8px; border-radius:50%; background:<?= $produk->stok > 0 ? '#22C55E' : '#EF4444' ?>; box-shadow: 0 0 0 4px <?= $produk->stok > 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)' ?>"></div>
+                    <span style="font-size:13px; font-weight:600; color:<?= $produk->stok > 0 ? '#22C55E' : '#EF4444' ?>">
+                        <?= $produk->stok > 0 ? 'Tersedia (' . $produk->stok . ' unit)' : 'Stok Habis' ?>
+                    </span>
+                </div>
+
+                <?php if ($produk->stok > 0): ?>
+                    <?php if (is_logged_in()): ?>
+                        <a href="<?= site_url('booking/form/'.$produk->id) ?>" class="btn btn-primary btn-block" style="padding:14px; font-size:15px; border-radius:12px;">
+                            <i class="fas fa-calendar-plus"></i> Sewa Sekarang
+                        </a>
+                    <?php else: ?>
+                        <a href="<?= site_url('login') ?>" class="btn btn-primary btn-block" style="padding:14px; font-size:15px; border-radius:12px;">
+                            <i class="fas fa-sign-in-alt"></i> Sewa sekarang
+                        </a>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <button class="btn btn-block" style="background:#E2E8F0; color:#94A3B8; cursor:not-allowed; padding:14px; border-radius:12px;" disabled>
+                        <i class="fas fa-ban"></i> Stok Tidak Tersedia
+                    </button>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-    <?php endif; ?>
 </div>
+
+<style>
+.product-detail-grid {
+    display: grid;
+    grid-template-columns: 4.5fr 7.5fr;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .product-detail-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+</style>
 
 <?php $this->load->view('templates/footer'); ?>

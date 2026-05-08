@@ -11,12 +11,15 @@
                 <span class="topbar-title"><?= isset($title) ? htmlspecialchars($title) : 'Dashboard' ?></span>
             </div>
             <div class="topbar-actions">
-                <div class="topbar-badge"><i class="fas fa-bell"></i>
+                <a href="<?= site_url('admin/pembayaran') ?>" class="topbar-badge" title="Verifikasi Pembayaran">
+                    <i class="fas fa-bell"></i>
                     <?php if (!empty($summary['pending_bayar'])): ?>
-                    <span style="position:absolute;top:2px;right:2px;width:8px;height:8px;background:red;border-radius:50%"></span>
+                    <span style="position:absolute;top:2px;right:2px;width:8px;height:8px;background:#EF4444;border-radius:50%;border:2px solid #fff"></span>
                     <?php endif; ?>
-                </div>
-                <div class="topbar-badge"><i class="fas fa-envelope"></i></div>
+                </a>
+                <a href="<?= site_url('admin/booking') ?>" class="topbar-badge" title="Manajemen Booking">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
         </div>
 
@@ -81,15 +84,15 @@
             <div class="grid grid-3 mb-4">
                 <div class="card">
                     <div class="card-header"><span class="card-title">Booking 14 Hari Terakhir</span></div>
-                    <div class="card-body"><canvas id="bookingChart" height="220"></canvas></div>
+                    <div class="card-body" style="height: 180px;"><canvas id="bookingChart"></canvas></div>
                 </div>
                 <div class="card">
                     <div class="card-header"><span class="card-title">Pembayaran per Status</span></div>
-                    <div class="card-body"><canvas id="paymentChart" height="220"></canvas></div>
+                    <div class="card-body" style="height: 180px;"><canvas id="paymentChart"></canvas></div>
                 </div>
                 <div class="card">
                     <div class="card-header"><span class="card-title">Stok Rendah</span></div>
-                    <div class="card-body"><canvas id="stockChart" height="220"></canvas></div>
+                    <div class="card-body" style="height: 180px;"><canvas id="stockChart"></canvas></div>
                 </div>
             </div>
 
@@ -196,6 +199,7 @@ new Chart(document.getElementById('bookingChart'), {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#F1F5F9' } },
@@ -214,7 +218,17 @@ new Chart(document.getElementById('paymentChart'), {
             borderWidth: 0,
         }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { 
+        responsive: true, 
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { 
+                position: 'bottom',
+                labels: { boxWidth: 10, font: { size: 10 } }
+            } 
+        },
+        layout: { padding: { top: 5, bottom: 5 } }
+    }
 });
 
 new Chart(document.getElementById('stockChart'), {
@@ -231,6 +245,7 @@ new Chart(document.getElementById('stockChart'), {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
             y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#F1F5F9' } },

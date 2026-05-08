@@ -64,6 +64,20 @@ class Produk extends Admin_Controller
         if (!$produk) show_404();
 
         if ($this->input->method() === 'post') {
+            $this->form_validation->set_rules('nama',          'Nama',          'required');
+            $this->form_validation->set_rules('kategori',      'Kategori',      'required');
+            $this->form_validation->set_rules('harga_per_hari','Harga',         'required|is_natural_no_zero');
+            $this->form_validation->set_rules('stok',         'Stok',          'required|is_natural');
+
+            if ($this->form_validation->run() === FALSE) {
+                $this->load->view('admin/produk/edit', [
+                    'title'  => 'Edit Produk — Admin RENTCAM',
+                    'produk' => $produk,
+                    'error'  => validation_errors()
+                ]);
+                return;
+            }
+
             $data = [
                 'nama'          => $this->input->post('nama', TRUE),
                 'kategori'      => $this->input->post('kategori', TRUE),
