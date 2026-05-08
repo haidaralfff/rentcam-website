@@ -96,12 +96,11 @@ rentcam/
 | **Admin** | `admin@gmail.com` | `admin1234` |
 | **Member** | `user@gmail.com` | `user123` |
 
-## 🖼️ UI Highlights
+## 🖼️ UI Preview
 
-Sistem RENTCAM kini hadir dengan desain **Modern Dark Mode Sidebar** dan **Dashboard Analytics**:
-- **Personalized Banner**: Banner sapaan dengan gradien elegan.
-- **Responsive Charts**: Visualisasi data transaksi yang adaptif di berbagai perangkat.
-- **Premium Alerts**: Konfirmasi logout dan hapus user menggunakan SweetAlert2.
+Berikut adalah tampilan antarmuka utama dari platform RENTCAM:
+
+![Home Page Preview](assets/mockup/image.png)
 
 ---
 
