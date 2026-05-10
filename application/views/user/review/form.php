@@ -20,7 +20,7 @@
 
             <?php if (isset($error)): ?><div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> <?= $error ?></div><?php endif; ?>
 
-            <?= form_open('review/form/'.$produk->id) ?>
+            <?= form_open('review/form/'.$booking_id) ?>
 
             <!-- Star Rating -->
             <div class="form-group">

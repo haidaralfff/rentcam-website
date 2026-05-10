@@ -44,18 +44,19 @@
 
             <?= form_open_multipart('pembayaran/upload/'.$booking->id) ?>
             <div class="form-group">
-                <label class="form-label">Metode Transfer</label>
-                <select name="metode" class="form-control form-select">
+                <label class="form-label">Metode Pembayaran</label>
+                <select name="metode" id="metode_bayar" class="form-control form-select">
                     <?php foreach($this->config->item('bank_accounts') as $bank): ?>
                     <option value="<?= $bank['bank'] ?>">Transfer <?= $bank['bank'] ?></option>
                     <?php endforeach; ?>
+                    <option value="cash">Cash (Tunai)</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label">Foto Bukti Transfer <span style="color:red">*</span></label>
+                <label class="form-label" id="label_bukti">Foto Bukti Transfer <span style="color:red">*</span></label>
                 <div class="upload-area" onclick="document.getElementById('bukti_bayar').click()">
                     <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                    <div class="upload-text">Klik atau drag foto bukti transfer</div>
+                    <div class="upload-text" id="text_bukti">Klik atau drag foto bukti transfer</div>
                     <div style="font-size:11px;color:#94A3B8;margin-top:4px">JPG, PNG, GIF • Maks 2MB</div>
                     <div id="file-name" style="font-size:12px;color:#2563EB;margin-top:8px;font-weight:600"></div>
                 </div>
@@ -72,6 +73,25 @@
                     <img id="preview" style="max-width:100%;border-radius:8px;border:2px solid #E2E8F0">
                 </div>
             </div>
+            
+            <script>
+            const metodeSelect = document.getElementById('metode_bayar');
+            const buktiInput = document.getElementById('bukti_bayar');
+            const labelBukti = document.getElementById('label_bukti');
+            const textBukti = document.getElementById('text_bukti');
+
+            metodeSelect.addEventListener('change', function() {
+                if (this.value === 'cash') {
+                    buktiInput.required = false;
+                    labelBukti.innerHTML = 'Foto Bukti Pembayaran (Opsional)';
+                    textBukti.textContent = 'Klik untuk upload bukti (jika ada)';
+                } else {
+                    buktiInput.required = true;
+                    labelBukti.innerHTML = 'Foto Bukti Transfer <span style="color:red">*</span>';
+                    textBukti.textContent = 'Klik atau drag foto bukti transfer';
+                }
+            });
+            </script>
             <button type="submit" class="btn btn-primary btn-block btn-lg">
                 <i class="fas fa-paper-plane"></i> Kirim Bukti Pembayaran
             </button>

@@ -82,6 +82,53 @@
                 <?php endif; ?>
             </div>
         </div>
+
+        <!-- Reviews Section -->
+        <div style="margin-top: 48px;" data-aos="fade-up">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <h3 style="font-family:'Poppins', sans-serif; font-size:20px; font-weight:800; color:#0F172A;">Ulasan Pelanggan</h3>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div style="color:#F59E0B; font-size:18px;">
+                        <?php for($i=1; $i<=5; $i++): ?>
+                            <i class="<?= $i <= round($rating) ? 'fas' : 'far' ?> fa-star"></i>
+                        <?php endfor; ?>
+                    </div>
+                    <span style="font-weight:800; color:#0F172A; font-size:18px;"><?= $rating ?></span>
+                    <span style="color:#64748B; font-size:14px;">(<?= count($reviews) ?> Ulasan)</span>
+                </div>
+            </div>
+
+            <?php if (empty($reviews)): ?>
+                <div style="background:#fff; border-radius:16px; padding:40px; text-align:center; border:1px solid #E2E8F0;">
+                    <div style="font-size:48px; color:#E2E8F0; margin-bottom:16px;"><i class="far fa-comment-dots"></i></div>
+                    <p style="color:#64748B; font-size:14px;">Belum ada ulasan untuk produk ini.</p>
+                </div>
+            <?php else: ?>
+                <div style="display:grid; gap:16px;">
+                    <?php foreach ($reviews as $rev): ?>
+                        <div style="background:#fff; border-radius:16px; padding:20px; border:1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:12px;">
+                                <div style="display:flex; gap:12px; align-items:center;">
+                                    <div style="width:40px; height:40px; border-radius:50%; background:#F1F5F9; display:flex; align-items:center; justify-content:center; color:#64748B; font-weight:700; font-size:14px;">
+                                        <?= strtoupper(substr($rev->nama_user, 0, 1)) ?>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:14px; font-weight:700; color:#0F172A;"><?= htmlspecialchars($rev->nama_user) ?></div>
+                                        <div style="color:#F59E0B; font-size:11px;">
+                                            <?php for($i=1; $i<=5; $i++): ?>
+                                                <i class="<?= $i <= $rev->rating ? 'fas' : 'far' ?> fa-star"></i>
+                                            <?php endfor; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="font-size:11px; color:#94A3B8;"><?= tgl_indo($rev->created_at) ?></div>
+                            </div>
+                            <p style="font-size:13px; color:#475569; line-height:1.6; margin:0;"><?= nl2br(htmlspecialchars($rev->komentar)) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

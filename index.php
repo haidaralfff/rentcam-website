@@ -46,7 +46,11 @@ if (file_exists('.env')) {
     foreach ($lines as $line) {
         if (strpos(trim($line), '#') === 0) continue;
         list($name, $value) = explode('=', $line, 2);
-        putenv(trim($name) . '=' . trim($value));
+        $name = trim($name);
+        $value = trim($value);
+        if (getenv($name) === false) {
+            putenv("$name=$value");
+        }
     }
 }
 

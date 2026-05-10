@@ -72,12 +72,40 @@ class Booking extends User_Controller
             $total = $produk->harga_per_hari * $qty * $durasi;
             $user  = current_user();
 
+            // Handle KTP Upload
+            $ktp_filename = null;
+            if (!empty($_FILES['ktp']['name'])) {
+                $config['upload_path']   = './assets/uploads/identitas/';
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size']      = 2048;
+                $config['file_name']     = 'ktp_' . time() . '_' . $user['id'];
+
+                if (!is_dir($config['upload_path'])) {
+                    mkdir($config['upload_path'], 0777, true);
+                }
+
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('ktp')) {
+                    $ktp_filename = $this->upload->data('file_name');
+                } else {
+                    $this->load->view('user/booking/form', [
+                        'produk' => $produk,
+                        'stok_tersedia' => $stok_tersedia,
+                        'error'  => 'Gagal upload KTP: ' . $this->upload->display_errors('', ''),
+                    ]);
+                    return;
+                }
+            }
+
             // Simpan booking
             $booking_id = $this->Booking_model->create([
                 'user_id'         => $user['id'],
                 'tanggal_mulai'   => $mulai,
                 'tanggal_selesai' => $selesai,
                 'total_harga'     => $total,
+                'phone'           => $this->input->post('phone', TRUE),
+                'alamat'          => $this->input->post('alamat', TRUE),
+                'ktp'             => $ktp_filename,
                 'status'          => 'pending',
                 'deadline_bayar'  => date('Y-m-d H:i:s', strtotime('+1 day')),
             ]);

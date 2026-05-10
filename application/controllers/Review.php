@@ -37,7 +37,11 @@ class Review extends User_Controller
             $this->form_validation->set_rules('komentar', 'Komentar', 'required|min_length[10]');
 
             if ($this->form_validation->run() === FALSE) {
-                $this->load->view('user/review/form', ['produk' => $produk, 'error' => validation_errors()]);
+                $this->load->view('user/review/form', [
+                    'produk'     => $produk,
+                    'booking_id' => $booking_id,
+                    'error'      => validation_errors()
+                ]);
                 return;
             }
 
@@ -54,8 +58,9 @@ class Review extends User_Controller
         }
 
         $this->load->view('user/review/form', [
-            'title'  => 'Beri Review — RENTCAM',
-            'produk' => $produk,
+            'title'      => 'Beri Review — RENTCAM',
+            'produk'     => $produk,
+            'booking_id' => $booking_id,
         ]);
     }
 }

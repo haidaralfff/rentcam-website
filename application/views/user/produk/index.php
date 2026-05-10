@@ -50,7 +50,13 @@
                 <?php endif; ?>
             </div>
             <div class="produk-card-body">
-                <div class="produk-card-kategori"><i class="fas fa-tag"></i> <?= ucfirst($p->kategori) ?></div>
+                <div class="d-flex justify-between align-center" style="margin-bottom:8px">
+                    <div class="produk-card-kategori"><i class="fas fa-tag"></i> <?= ucfirst($p->kategori) ?></div>
+                    <div style="font-size:12px; font-weight:700; color:#F59E0B; display:flex; align-items:center; gap:4px">
+                        <i class="fas fa-star"></i> <?= $p->avg_rating ?: '0' ?>
+                        <span style="color:#94A3B8; font-weight:400">(<?= $p->total_review ?>)</span>
+                    </div>
+                </div>
                 <h3 class="produk-card-title"><?= htmlspecialchars($p->nama) ?></h3>
                 <p style="font-size:13px; color:#64748B; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:16px; line-height:1.5;"><?= htmlspecialchars($p->spesifikasi) ?></p>
                 <div class="d-flex align-center justify-between" style="margin-top:auto">

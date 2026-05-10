@@ -50,9 +50,15 @@
                     
                     <div style="margin-left:auto; display:flex; gap:8px">
                         <?php if ($b->status === 'kembali'): ?>
-                        <a href="<?= site_url('review/form/'.$b->id) ?>" class="btn btn-primary btn-sm">
-                            <i class="fas fa-star"></i> Review
-                        </a>
+                            <?php if (!empty($b->review_id)): ?>
+                            <a href="<?= site_url('produk/detail/'.$b->produk_id) ?>" class="btn btn-outline btn-sm">
+                                <i class="fas fa-check-circle"></i> Sudah Diulas
+                            </a>
+                            <?php else: ?>
+                            <a href="<?= site_url('review/form/'.$b->id) ?>" class="btn btn-primary btn-sm">
+                                <i class="fas fa-star"></i> Review
+                            </a>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <?php if ($b->status === 'pending' && (!$b->status_bayar || $b->status_bayar === 'rejected')): ?>
                         <a href="<?= site_url('pembayaran/upload/'.$b->id) ?>" class="btn btn-accent btn-sm">

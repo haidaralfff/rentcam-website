@@ -30,9 +30,10 @@ class Laporan extends Superadmin_Controller
         if (!$booking) show_404();
 
         $data = [
-            'title'   => 'Detail Laporan #' . $id,
-            'booking' => $booking,
-            'detail'  => $this->Booking_detail_model->get_by_booking($id),
+            'title'      => 'Detail Laporan #' . $id,
+            'booking'    => $booking,
+            'detail'     => $this->Booking_detail_model->get_by_booking($id),
+            'pembayaran' => $this->Pembayaran_model->get_by_booking($id),
         ];
         $this->load->view('superadmin/laporan/detail', $data);
     }

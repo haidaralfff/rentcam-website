@@ -195,6 +195,10 @@
             <a href="#" style="width:60px; height:60px; border-radius:50%; background:#000000; color:#fff; border: 1px solid rgba(255, 255, 255, 0.2); display:flex; align-items:center; justify-content:center; font-size:28px; transition:transform 0.3s ease; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
                 <i class="fab fa-tiktok"></i>
             </a>
+            <!-- Whatsapp -->
+            <a href="#" style="width:60px; height:60px; border-radius:50%; background:#000000; color:#fff; border: 1px solid rgba(255, 255, 255, 0.2); display:flex; align-items:center; justify-content:center; font-size:28px; transition:transform 0.3s ease; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+                <i class="fab fa-whatsapp"></i> 
+            </a>
         </div>
         <p style="color:#94A3B8; font-size:13px; margin-top:24px; font-weight:500;">@rentcam_official</p>
     </div>

@@ -22,7 +22,7 @@
 
             <?php if (isset($error)): ?><div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> <?= $error ?></div><?php endif; ?>
 
-            <?= form_open('booking/form/'.$produk->id) ?>
+            <?= form_open_multipart('booking/form/'.$produk->id) ?>
             <div class="grid grid-2">
                 <div class="form-group">
                     <label class="form-label">Tanggal Mulai <span style="color:red">*</span></label>
@@ -37,9 +37,27 @@
                            value="<?= set_value('tanggal_selesai') ?>" required>
                 </div>
             </div>
+            
+            <div class="grid grid-2">
+                <div class="form-group">
+                    <label class="form-label">Jumlah Unit <span style="color:red">*</span></label>
+                    <input type="number" name="qty" id="qty" class="form-control" min="1" max="<?= isset($stok_tersedia) ? (int)$stok_tersedia : (int)$produk->stok ?>" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon (WhatsApp) <span style="color:red">*</span></label>
+                    <input type="tel" name="phone" class="form-control" placeholder="Contoh: 081234567890" required>
+                </div>
+            </div>
+
             <div class="form-group">
-                <label class="form-label">Jumlah Unit <span style="color:red">*</span></label>
-                <input type="number" name="qty" id="qty" class="form-control" min="1" max="<?= isset($stok_tersedia) ? (int)$stok_tersedia : (int)$produk->stok ?>" value="1" required>
+                <label class="form-label">Alamat Lengkap <span style="color:red">*</span></label>
+                <textarea name="alamat" class="form-control" rows="2" placeholder="Masukkan alamat lengkap pengiriman/jemput..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Upload KTP/Identitas <span style="color:red">*</span></label>
+                <input type="file" name="ktp" class="form-control" accept="image/*" required>
+                <div style="font-size:10px;color:#94A3B8;margin-top:4px">Format: JPG, PNG • Maks 2MB</div>
             </div>
 
             <!-- Kalkulasi Total (Live) -->

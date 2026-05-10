@@ -7,6 +7,10 @@ class Produk_model extends CI_Model
 
     public function get_all($filters = [])
     {
+        $this->db->select($this->table . '.*');
+        $this->db->select('(SELECT ROUND(AVG(rating), 1) FROM review WHERE review.produk_id = ' . $this->table . '.id) as avg_rating');
+        $this->db->select('(SELECT COUNT(id) FROM review WHERE review.produk_id = ' . $this->table . '.id) as total_review');
+        
         if (!empty($filters['kategori'])) {
             $this->db->where('kategori', $filters['kategori']);
         }

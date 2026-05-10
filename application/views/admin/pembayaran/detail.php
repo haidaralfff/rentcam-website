@@ -50,28 +50,71 @@
                                 <label class="form-label">Catatan Admin (opsional)</label>
                                 <textarea name="catatan" class="form-control" rows="3" placeholder="Contoh: Nominal transfer sesuai..."></textarea>
                             </div>
-                            <div class="d-flex gap-2">
-                                <button type="submit" name="status" value="verified" class="btn btn-success" style="flex:1" onclick="return confirm('Verifikasi pembayaran ini?')">
-                                    <i class="fas fa-check-circle"></i> Verifikasi
-                                </button>
-                                <button type="submit" name="status" value="rejected" class="btn btn-danger" style="flex:1" onclick="return confirm('Tolak pembayaran ini?')">
-                                    <i class="fas fa-times-circle"></i> Tolak
-                                </button>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-success btn-verifikasi" style="flex:1" data-status="verified">
+                                        <i class="fas fa-check-circle"></i> Verifikasi
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-verifikasi" style="flex:1" data-status="rejected">
+                                        <i class="fas fa-times-circle"></i> Tolak
+                                    </button>
+                                </div>
+                                <?= form_close() ?>
                             </div>
-                            <?= form_close() ?>
                         </div>
-                    </div>
-                    <?php elseif ($payment->catatan_admin): ?>
-                    <div class="card">
-                        <div class="card-body">
-                            <p style="font-size:12px;color:#64748B;font-weight:600;margin-bottom:6px">Catatan Admin:</p>
-                            <p style="font-size:13px"><?= htmlspecialchars($payment->catatan_admin) ?></p>
+                        <?php elseif ($payment->catatan_admin): ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <p style="font-size:12px;color:#64748B;font-weight:600;margin-bottom:6px">Catatan Admin:</p>
+                                <p style="font-size:13px"><?= htmlspecialchars($payment->catatan_admin) ?></p>
+                            </div>
                         </div>
+                        <?php endif; ?>
                     </div>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+    document.querySelectorAll('.btn-verifikasi').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const status = this.getAttribute('data-status');
+            const title = status === 'verified' ? 'Verifikasi Pembayaran?' : 'Tolak Pembayaran?';
+            const text = status === 'verified' ? 'Apakah Anda yakin pembayaran ini sudah sesuai?' : 'Apakah Anda yakin ingin menolak pembayaran ini?';
+            const confirmBtnText = status === 'verified' ? 'Ya, Verifikasi' : 'Ya, Tolak';
+            const confirmBtnClass = status === 'verified' ? 'btn-success' : 'btn-danger';
+            const iconType = status === 'verified' ? 'question' : 'warning';
+            const iconColor = status === 'verified' ? '#2563EB' : '#DC2626';
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: iconType,
+                iconColor: iconColor,
+                showCancelButton: true,
+                confirmButtonText: confirmBtnText,
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'swal2-premium-popup',
+                    confirmButton: 'btn ' + confirmBtnClass,
+                    cancelButton: 'btn btn-outline'
+                },
+                buttonsStyling: false,
+                backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = this.closest('form');
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'status';
+                    input.value = status;
+                    form.appendChild(input);
+                    form.submit();
+                }
+            });
+        });
+    });
+    </script>
 </div>
 <?php $this->load->view('templates/footer'); ?>
