@@ -6,10 +6,10 @@ RENTCAM adalah platform penyewaan kamera dan drone berbasis web yang dirancang d
 
 | Nama | NIM | Kelas |
 |---|---|---|
-| Nama Anggota 1 | NIM_ANDA_1 | KELAS_ANDA |
-| Nama Anggota 2 | NIM_ANDA_2 | KELAS_ANDA |
-| Nama Anggota 3 | NIM_ANDA_3 | KELAS_ANDA |
-| Nama Anggota 4 | NIM_ANDA_4 | KELAS_ANDA |
+| Haidar Habibi Al Farisi | 240202862 | 4IKRB |
+| Ismi Nur Fadilah | 240202868 | 4IKRB |
+| Fauzatul Farhanah | 240202834 | 4IKRB |
+| Tyas Nurshika Damaia | 240202887 | 4IKRB |
 
 ## 🚀 Tech Stack
 
