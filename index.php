@@ -41,6 +41,8 @@
  * LOAD .ENV FILE
  *---------------------------------------------------------------
  */
+ob_start();
+
 if (file_exists('.env')) {
     $lines = file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
