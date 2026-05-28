@@ -28,14 +28,16 @@ RENTCAM adalah platform penyewaan kamera dan drone berbasis web yang dirancang d
 - **Pengunjung (Guest)**: Menjelajahi katalog produk yang estetik, melihat spesifikasi detail, dan cek ketersediaan alat.
 - **Penyewa (Member)**:
     - Booking online real-time dengan status transaksi transparan.
-    - Upload bukti pembayaran langsung dari dashboard.
+    - Upload bukti pembayaran langsung dari dashboard (Opsional untuk metode *Cash*).
     - **Manajemen Profil**: Mengubah data diri dan password secara mandiri.
-    - Memberi review/rating pada produk yang telah disewa.
+    - Memberi review/rating pada produk yang telah disewa (mendukung multi-review untuk transaksi berbeda).
+    - **Manajemen Riwayat**: Menghapus riwayat transaksi penyewaan.
 - **Administrator**:
     - Dashboard dengan statistik operasional (Stok rendah, Booking harian).
     - Verifikasi pembayaran dengan sistem review detail.
     - Manajemen produk (CRUD) dengan kategori dinamis.
     - Update status penyewaan (Booking -> Dipinjam -> Kembali).
+    - **Manajemen Data**: Menghapus data booking dan data pembayaran beserta pembersihan file foto dari server.
 - **Super Admin**:
     - **Analitik Bisnis**: Grafik pendapatan bulanan dan performa produk terlaris.
     - **Personalized Greeting Banner**: Sapaan dinamis berdasarkan waktu (Pagi/Siang/Malam).

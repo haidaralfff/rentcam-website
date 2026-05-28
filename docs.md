@@ -269,7 +269,12 @@ erDiagram
 *   **One-to-Many (Users-Booking)**: Satu pengguna dapat melakukan banyak transaksi penyewaan.
 *   **One-to-One (Booking-Pembayaran)**: Setiap satu ID Booking hanya memiliki satu catatan pembayaran (bukti transfer).
 *   **Master-Detail (Booking-BookingDetail)**: Memungkinkan pengembangan di masa depan jika sistem mendukung satu kali checkout untuk banyak jenis alat sekaligus (saat ini diimplementasikan 1:1 untuk kesederhanaan).
-*   **Review Relation**: Review terikat pada `booking_id` untuk memastikan hanya penyewa yang benar-benar telah menyelesaikan transaksi yang bisa memberikan ulasan (mencegah review palsu).
+*   **Review Relation**: Review terikat pada `booking_id` secara eksplisit dan divalidasi berdasarkan ID transaksi tersebut (bukan sekadar `produk_id`). Hal ini memastikan seorang *user* yang menyewa produk yang sama pada dua waktu berbeda dapat memberikan ulasan secara independen untuk masing-masing transaksinya.
+
+### 🧹 Kebijakan Manajemen Data (Data Deletion)
+Sistem ini menggunakan mekanisme **Hard Delete** dengan sistem Cascade:
+1. **Cascade Deletion**: Saat data *Booking* dihapus (oleh User di menu Riwayat, atau oleh Admin), seluruh data detail yang terhubung (seperti *Booking Detail*, *Pembayaran*, dan *Review*) akan ikut dihapus dari database secara otomatis (melalui Query Builder maupun ON DELETE CASCADE di level skema).
+2. **Physical File Deletion**: Untuk menjaga kapasitas storage, penghapusan data pembayaran dari dashboard Admin akan turut memicu fungsi *unlink()* yang menghapus file gambar bukti transfer dari direktori `/assets/uploads/`. Sama halnya dengan file *foto penerima* saat serah terima.
 
 ---
 
