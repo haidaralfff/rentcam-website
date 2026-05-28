@@ -25,24 +25,33 @@ RENTCAM adalah platform penyewaan kamera dan drone berbasis web yang dirancang d
 
 ## 📋 Fitur Utama
 
-- **Pengunjung (Guest)**: Menjelajahi katalog produk yang estetik, melihat spesifikasi detail, dan cek ketersediaan alat.
-- **Penyewa (Member)**:
-    - Booking online real-time dengan status transaksi transparan.
-    - Upload bukti pembayaran langsung dari dashboard (Opsional untuk metode *Cash*).
-    - **Manajemen Profil**: Mengubah data diri dan password secara mandiri.
-    - Memberi review/rating pada produk yang telah disewa (mendukung multi-review untuk transaksi berbeda).
-    - **Manajemen Riwayat**: Menghapus riwayat transaksi penyewaan.
-- **Administrator**:
-    - Dashboard dengan statistik operasional (Stok rendah, Booking harian).
-    - Verifikasi pembayaran dengan sistem review detail.
-    - Manajemen produk (CRUD) dengan kategori dinamis.
-    - Update status penyewaan (Booking -> Dipinjam -> Kembali).
-    - **Manajemen Data**: Menghapus data booking dan data pembayaran beserta pembersihan file foto dari server.
-- **Super Admin**:
-    - **Analitik Bisnis**: Grafik pendapatan bulanan dan performa produk terlaris.
-    - **Personalized Greeting Banner**: Sapaan dinamis berdasarkan waktu (Pagi/Siang/Malam).
-    - Manajemen akun (Admin & User) lengkap dengan fitur hapus & ganti status.
-    - Laporan Keuangan tahunan dengan filter interaktif.
+```mermaid
+graph LR
+    A[RENTCAM] --> B(Pengunjung / Guest)
+    A --> C(Penyewa / Member)
+    A --> D(Administrator)
+    A --> E(Super Admin)
+
+    B --> B1[Jelajah Katalog Produk]
+    B --> B2[Cek Spesifikasi & Ketersediaan]
+
+    C --> C1[Booking Online Real-time]
+    C --> C2[Upload Bukti Pembayaran]
+    C --> C3[Manajemen Profil]
+    C --> C4[Review & Rating Produk]
+    C --> C5[Hapus Riwayat Transaksi]
+
+    D --> D1[Dashboard & Statistik]
+    D --> D2[Verifikasi Pembayaran]
+    D --> D3[Manajemen Produk CRUD]
+    D --> D4[Update Status Sewa]
+    D --> D5[Hapus Data Booking/File]
+
+    E --> E1[Analitik Bisnis & Grafik]
+    E --> E2[Sapaan Dinamis]
+    E --> E3[Manajemen Akun]
+    E --> E4[Laporan Keuangan Tahunan]
+```
 
 ## ⚙️ Installation & Setup (Docker)
 
