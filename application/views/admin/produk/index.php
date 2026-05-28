@@ -57,7 +57,7 @@
                                 <td>
                                     <div class="d-flex gap-2">
                                         <a href="<?= site_url('admin/produk/edit/'.$p->id) ?>" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a href="<?= site_url('admin/produk/hapus/'.$p->id) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus produk ini?')"><i class="fas fa-trash"></i></a>
+                                        <a href="<?= site_url('admin/produk/hapus/'.$p->id) ?>" class="btn btn-danger btn-sm btn-delete-produk" data-nama="<?= htmlspecialchars($p->nama) ?>"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -70,4 +70,35 @@
         </div>
     </div>
 </div>
+<script>
+document.querySelectorAll('.btn-delete-produk').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const nama = this.getAttribute('data-nama');
+        
+        Swal.fire({
+            title: 'Hapus Produk?',
+            text: `Apakah Anda yakin ingin menghapus produk "${nama}"?`,
+            icon: 'warning',
+            iconColor: '#EF4444',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+</script>
 <?php $this->load->view('templates/footer'); ?>

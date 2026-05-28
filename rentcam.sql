@@ -45,6 +45,10 @@ CREATE TABLE IF NOT EXISTS booking (
     total_harga     INT NOT NULL DEFAULT 0,
     status          ENUM('pending', 'confirmed', 'dipinjam', 'kembali', 'batal') DEFAULT 'pending',
     deadline_bayar  DATETIME DEFAULT NULL,
+    phone           VARCHAR(20),
+    alamat          TEXT,
+    ktp             VARCHAR(255),
+    foto_penerima   VARCHAR(255),
     catatan         TEXT,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

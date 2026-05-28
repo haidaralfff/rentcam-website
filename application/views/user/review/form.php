@@ -49,7 +49,13 @@
 
 <script>
 const labels = ['','Sangat Buruk','Buruk','Cukup','Bagus','Sangat Bagus'];
-let selected = 0;
+let selected = 5; // Default rating agar form bisa disubmit
+
+// Initialize stars on load
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('rating-input').value = selected;
+    resetStar();
+});
 
 function hoverStar(val) {
     document.querySelectorAll('.star').forEach((s, i) => {

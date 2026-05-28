@@ -26,11 +26,11 @@ class Review_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function already_reviewed($user_id, $produk_id)
+    public function already_reviewed($user_id, $booking_id)
     {
         return $this->db->where([
-            'user_id'   => $user_id,
-            'produk_id' => $produk_id,
+            'user_id'    => $user_id,
+            'booking_id' => $booking_id,
         ])->count_all_results($this->table) > 0;
     }
 

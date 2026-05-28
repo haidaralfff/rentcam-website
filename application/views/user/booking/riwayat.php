@@ -128,6 +128,9 @@
                         <a href="<?= site_url('produk/detail/'.$b->produk_id) ?>" class="btn btn-light btn-sm" style="border-radius:10px; font-size:12px; background:#F8FAFC; border:1px solid #E2E8F0;">
                             <i class="fas fa-external-link-alt"></i> Detail
                         </a>
+                        <a href="<?= site_url('booking/hapus/'.$b->id) ?>" class="btn btn-danger btn-sm btn-delete-riwayat" style="border-radius:10px; font-size:12px;">
+                            <i class="fas fa-trash"></i> Hapus
+                        </a>
                     </div>
                 </div>
             </div>
@@ -136,5 +139,36 @@
     </div>
     <?php endif; ?>
 </div>
+
+<script>
+document.querySelectorAll('.btn-delete-riwayat').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        
+        Swal.fire({
+            title: 'Hapus Riwayat?',
+            text: `Apakah Anda yakin ingin menghapus riwayat booking ini?`,
+            icon: 'warning',
+            iconColor: '#EF4444',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+</script>
 
 <?php $this->load->view('templates/footer'); ?>

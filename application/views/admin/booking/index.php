@@ -26,7 +26,12 @@
                                 <td style="font-size:12px"><?= tgl_indo($b->tanggal_selesai) ?></td>
                                 <td class="fw-semibold"><?= rupiah($b->total_harga) ?></td>
                                 <td><span class="badge badge-<?= $b->status ?>"><?= ucfirst($b->status) ?></span></td>
-                                <td><a href="<?= site_url('admin/booking/detail/'.$b->id) ?>" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Detail</a></td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="<?= site_url('admin/booking/detail/'.$b->id) ?>" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Detail</a>
+                                        <a href="<?= site_url('admin/booking/hapus/'.$b->id) ?>" class="btn btn-danger btn-sm btn-delete-booking" data-id="<?= $b->id ?>"><i class="fas fa-trash"></i> Hapus</a>
+                                    </div>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                             <?php endif; ?>
@@ -37,4 +42,35 @@
         </div>
     </div>
 </div>
+<script>
+document.querySelectorAll('.btn-delete-booking').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const id = this.getAttribute('data-id');
+        
+        Swal.fire({
+            title: 'Hapus Booking?',
+            text: `Apakah Anda yakin ingin menghapus booking #${id} beserta seluruh riwayat terkait (pembayaran, ulasan, dll)?`,
+            icon: 'warning',
+            iconColor: '#EF4444',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+</script>
 <?php $this->load->view('templates/footer'); ?>

@@ -32,7 +32,7 @@
                                 <td><span class="badge badge-<?= $a->status ? 'verified' : 'rejected' ?>"><?= $a->status ? 'Aktif' : 'Nonaktif' ?></span></td>
                                 <td style="font-size:12px"><?= tgl_indo(date('Y-m-d',strtotime($a->created_at))) ?></td>
                                 <td>
-                                    <a href="<?= site_url('superadmin/admin/hapus/'.$a->id) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus admin ini?')">
+                                    <a href="<?= site_url('superadmin/admin/hapus/'.$a->id) ?>" class="btn btn-danger btn-sm btn-delete-admin" data-nama="<?= htmlspecialchars($a->nama) ?>">
                                         <i class="fas fa-trash"></i> Hapus
                                     </a>
                                 </td>
@@ -45,4 +45,35 @@
         </div>
     </div>
 </div>
+<script>
+document.querySelectorAll('.btn-delete-admin').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const nama = this.getAttribute('data-nama');
+        
+        Swal.fire({
+            title: 'Hapus Admin?',
+            text: `Apakah Anda yakin ingin menghapus admin "${nama}"?`,
+            icon: 'warning',
+            iconColor: '#EF4444',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+</script>
 <?php $this->load->view('templates/footer'); ?>

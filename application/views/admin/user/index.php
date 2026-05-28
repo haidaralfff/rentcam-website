@@ -41,7 +41,7 @@
                                 <td>
                                     <div class="d-flex gap-2">
                                         <a href="<?= site_url('superadmin/user/edit/'.$u->id) ?>" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a href="<?= site_url('superadmin/user/toggle_status/'.$u->id) ?>" class="btn btn-sm <?= $u->status ? 'btn-danger' : 'btn-success' ?>" onclick="return confirm('Ubah status user?')">
+                                        <a href="<?= site_url('superadmin/user/toggle_status/'.$u->id) ?>" class="btn btn-sm <?= $u->status ? 'btn-danger' : 'btn-success' ?> btn-toggle-status" data-nama="<?= htmlspecialchars($u->nama) ?>" data-status="<?= $u->status ? 'Nonaktifkan' : 'Aktifkan' ?>">
                                             <i class="fas fa-<?= $u->status ? 'ban' : 'check' ?>"></i>
                                         </a>
                                         <a href="<?= site_url('superadmin/user/hapus/'.$u->id) ?>" class="btn btn-danger btn-sm btn-delete-user" data-nama="<?= htmlspecialchars($u->nama) ?>">
@@ -78,6 +78,37 @@ document.querySelectorAll('.btn-delete-user').forEach(btn => {
             customClass: {
                 popup: 'swal2-premium-popup',
                 confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-outline'
+            },
+            buttonsStyling: false,
+            backdrop: `rgba(15, 23, 42, 0.5) blur(4px)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = href;
+            }
+        });
+    });
+});
+
+document.querySelectorAll('.btn-toggle-status').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const nama = this.getAttribute('data-nama');
+        const status = this.getAttribute('data-status');
+        
+        Swal.fire({
+            title: 'Ubah Status User?',
+            text: `Apakah Anda yakin ingin ${status.toLowerCase()} user "${nama}"?`,
+            icon: 'question',
+            iconColor: '#3B82F6',
+            showCancelButton: true,
+            confirmButtonText: `Ya, ${status}`,
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal2-premium-popup',
+                confirmButton: 'btn btn-primary',
                 cancelButton: 'btn btn-outline'
             },
             buttonsStyling: false,

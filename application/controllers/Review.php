@@ -27,7 +27,7 @@ class Review extends User_Controller
         $item   = $detail[0]; 
         $produk = $this->Produk_model->get_by_id($item->produk_id);
 
-        if ($this->Review_model->already_reviewed($user['id'], $item->produk_id)) {
+        if ($this->Review_model->already_reviewed($user['id'], $booking_id)) {
             $this->session->set_flashdata('error', 'Anda sudah memberikan review untuk transaksi ini.');
             redirect('booking/riwayat');
         }

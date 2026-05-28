@@ -10,5 +10,4 @@ npm-debug.log
 *.log
 application/logs/*
 !application/logs/.gitkeep
-.htaccess
 README.md

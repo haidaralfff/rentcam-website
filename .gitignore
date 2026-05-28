@@ -23,3 +23,7 @@ prompt/project_plan.md
 # Ignore large assets
 assets/mockup/
 assets/picture/
+
+# Ignore session files
+application/session/*
+!application/session/.gitkeep

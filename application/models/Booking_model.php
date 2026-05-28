@@ -48,7 +48,7 @@ class Booking_model extends CI_Model
     public function get_by_user($user_id)
     {
         $this->expire_pending();
-        $this->db->select('booking.*, pembayaran.status as status_bayar, review.id as review_id, booking_detail.produk_id, GROUP_CONCAT(produk.nama SEPARATOR ", ") as nama_produk, GROUP_CONCAT(produk.foto SEPARATOR ", ") as foto_produk');
+        $this->db->select('booking.*, MAX(pembayaran.status) as status_bayar, MAX(review.id) as review_id, MAX(booking_detail.produk_id) as produk_id, GROUP_CONCAT(produk.nama SEPARATOR ", ") as nama_produk, GROUP_CONCAT(produk.foto SEPARATOR ", ") as foto_produk');
         $this->db->from($this->table);
         $this->db->join('pembayaran', 'pembayaran.booking_id = booking.id', 'left');
         $this->db->join('booking_detail', 'booking_detail.booking_id = booking.id', 'left');
@@ -109,6 +109,22 @@ class Booking_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->update($this->table, ['status' => $status]);
+    }
+
+    public function update($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, $data);
+    }
+
+    public function delete($id)
+    {
+        // Delete related records to prevent orphan data
+        $this->db->where('booking_id', $id)->delete('review');
+        $this->db->where('booking_id', $id)->delete('pembayaran');
+        $this->db->where('booking_id', $id)->delete('booking_detail');
+        $this->db->where('id', $id)->delete($this->table);
+        return true;
     }
 
     /**

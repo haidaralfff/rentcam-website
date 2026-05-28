@@ -69,4 +69,20 @@ class Booking extends Admin_Controller
         $this->session->set_flashdata('success', 'Status booking berhasil diperbarui.');
         redirect('admin/booking/detail/' . $id);
     }
+
+    public function hapus($id)
+    {
+        $booking = $this->Booking_model->get_by_id($id);
+        if (!$booking) show_404();
+
+        // Optional: remove foto penerima jika ada
+        if ($booking->foto_penerima) {
+            $this->upload_config->remove_file('penerima', $booking->foto_penerima);
+        }
+
+        $this->Booking_model->delete($id);
+        
+        $this->session->set_flashdata('success', 'Booking berhasil dihapus.');
+        redirect('admin/booking');
+    }
 }

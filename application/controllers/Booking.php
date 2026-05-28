@@ -129,4 +129,19 @@ class Booking extends User_Controller
         ];
         $this->load->view('user/booking/riwayat', $data);
     }
+
+    public function hapus($id)
+    {
+        $user = current_user();
+        $booking = $this->Booking_model->get_by_id($id);
+
+        if (!$booking || $booking->user_id != $user['id']) {
+            show_404();
+        }
+
+        $this->Booking_model->delete($id);
+        
+        $this->session->set_flashdata('success', 'Riwayat booking berhasil dihapus.');
+        redirect('booking/riwayat');
+    }
 }

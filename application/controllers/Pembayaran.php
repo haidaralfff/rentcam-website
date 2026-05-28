@@ -42,23 +42,31 @@ class Pembayaran extends User_Controller
         }
 
         if ($this->input->method() === 'post') {
-            $result = $this->upload_config->upload_bukti('bukti_bayar');
+            $metode = $this->input->post('metode', TRUE);
+            $bukti_bayar_filename = null;
 
-            if (!$result['status']) {
-                $data = [
-                    'title'   => 'Upload Bukti Pembayaran',
-                    'booking' => $booking,
-                    'detail'  => $this->Booking_detail_model->get_by_booking($booking_id),
-                    'error'   => $result['data'],
-                ];
-                $this->load->view('user/pembayaran/upload', $data);
-                return;
+            if ($metode === 'cash' && empty($_FILES['bukti_bayar']['name'])) {
+                // Opsional, tidak perlu upload bukti
+            } else {
+                $result = $this->upload_config->upload_bukti('bukti_bayar');
+
+                if (!$result['status']) {
+                    $data = [
+                        'title'   => 'Upload Bukti Pembayaran',
+                        'booking' => $booking,
+                        'detail'  => $this->Booking_detail_model->get_by_booking($booking_id),
+                        'error'   => $result['data'],
+                    ];
+                    $this->load->view('user/pembayaran/upload', $data);
+                    return;
+                }
+                $bukti_bayar_filename = $result['data'];
             }
 
             $pay_data = [
                 'booking_id'  => $booking_id,
-                'metode'      => $this->input->post('metode', TRUE),
-                'bukti_bayar' => $result['data'],
+                'metode'      => $metode,
+                'bukti_bayar' => $bukti_bayar_filename,
                 'status'      => 'pending',
             ];
 

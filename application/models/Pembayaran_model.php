@@ -61,6 +61,12 @@ class Pembayaran_model extends CI_Model
         return $this->db->update($this->table, $update);
     }
 
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete($this->table);
+    }
+
     public function count_by_status($status)
     {
         return $this->db->where('status', $status)->count_all_results($this->table);

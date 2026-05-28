@@ -61,4 +61,20 @@ class Pembayaran extends Admin_Controller
         $this->session->set_flashdata('success', 'Status pembayaran berhasil diperbarui.');
         redirect('admin/pembayaran');
     }
+
+    public function hapus($id)
+    {
+        $payment = $this->Pembayaran_model->get_by_id($id);
+        if (!$payment) show_404();
+
+        // Opsional: Hapus file bukti pembayaran jika ingin
+        if ($payment->bukti_bayar && file_exists(FCPATH . 'assets/uploads/pembayaran/' . $payment->bukti_bayar)) {
+            unlink(FCPATH . 'assets/uploads/pembayaran/' . $payment->bukti_bayar);
+        }
+
+        $this->Pembayaran_model->delete($id);
+        
+        $this->session->set_flashdata('success', 'Pembayaran berhasil dihapus.');
+        redirect('admin/pembayaran');
+    }
 }
