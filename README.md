@@ -44,34 +44,31 @@ RENTCAM adalah platform penyewaan kamera dan drone berbasis web yang dirancang d
     - Manajemen akun (Admin & User) lengkap dengan fitur hapus & ganti status.
     - Laporan Keuangan tahunan dengan filter interaktif.
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation & Setup (Docker)
+
+Karena aplikasi ini menggunakan Docker, Anda tidak perlu menginstal XAMPP. Cukup pastikan Docker sudah terpasang di sistem Anda.
 
 ### 1. Prerequisites
-- [XAMPP](https://www.apachefriends.org/index.html) (PHP >= 7.4 & MySQL)
-- Web Browser (Chrome/Edge recommended)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Docker Compose (sudah terintegrasi dengan Docker Desktop)
 
-### 2. Clone & Setup
+### 2. Clone & Build
 ```bash
 # Clone repository
 git clone <repository-url>
+cd rentcam
 
-# Pindahkan ke folder htdocs
-mv rentcam C:\xampp\htdocs\
+# Jalankan container (Build otomatis jika belum ada image)
+docker-compose up -d
 ```
 
-### 3. Database Configuration
-1. Buat database baru bernama `rentcam` di phpMyAdmin.
-2. Import file `database/rentcam.sql` ke database tersebut.
-3. Pastikan konfigurasi di `.env` sudah sesuai:
-   ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASS=
-   DB_NAME=rentcam
-   ```
+### 3. Akses Aplikasi
+- **Web App**: `http://localhost/`
+- **PHPMyAdmin**: `http://localhost:8081/` (User: `rentcam`, Pass: `password`)
 
-### 4. Running the App
-Akses melalui browser di: `http://localhost/rentcam`
+*(Database MySQL akan secara otomatis dibuat dan diinisialisasi berdasarkan skema dari file `rentcam.sql` jika diletakkan di direktori `sql/`.)*
+
+Untuk dokumentasi Docker yang lebih lengkap (troubleshooting, config `.env`, dll), silakan merujuk ke file [DOCKER_SETUP.md](DOCKER_SETUP.md).
 
 ## 📂 Project Structure
 
@@ -87,6 +84,10 @@ rentcam/
 │   ├── js/               # Logika frontend
 │   └── uploads/          # Direktori foto produk & bukti bayar
 ├── .env                  # Konfigurasi environment (Private)
+├── .dockerignore         # File pengecualian build Docker
+├── docker-compose.yml    # Orkestrasi container (PHP & MySQL)
+├── Dockerfile            # Blueprint environment PHP/Apache
+├── DOCKER_SETUP.md       # Dokumentasi & panduan teknis Docker
 └── index.php             # Entry point aplikasi
 ```
 
