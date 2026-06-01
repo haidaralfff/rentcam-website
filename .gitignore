@@ -8,6 +8,9 @@ assets/uploads/
 # Ignore environment config
 .env
 
+# Ignore Docker configuration
+docker-compose.yml
+
 # Ignore logs and cache
 application/logs/*
 application/cache/*

@@ -143,5 +143,6 @@ class Booking extends User_Controller
         
         $this->session->set_flashdata('success', 'Riwayat booking berhasil dihapus.');
         redirect('booking/riwayat');
+        
     }
 }

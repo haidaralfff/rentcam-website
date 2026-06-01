@@ -5,7 +5,7 @@
             <div class="navbar-brand-icon" style="width:44px;height:44px;border-radius:12px;font-size:22px"><i class="fas fa-camera"></i></div>
             <span style="font-size:22px;font-weight:800">RENTCAM</span>
         </div>
-        <h1 class="auth-title">Selamat Datang Kembali</h1>
+        <h1 class="auth-title">Selamat Datang</h1>
         <p class="auth-subtitle">Masuk ke akun RENTCAM Anda</p>
 
         <?php if ($this->session->flashdata('success')): ?>
