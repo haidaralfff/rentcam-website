@@ -108,7 +108,7 @@ class Booking extends User_Controller
                 $this->session->set_flashdata('success', 'Booking berhasil! Silahkan upload bukti pembayaran.');
                 redirect('pembayaran/upload/' . $booking_id);
             } else {
-                $this->session->set_flashdata('error', 'Gagal memproses booking. Silahkan coba lagi.');
+                $this->session->set_flashdata('error', 'Gagal memproses booking. Stok mungkin baru saja habis , silahkan coba lagi.');
                 redirect('booking/form/' . $produk_id);
             }
         }

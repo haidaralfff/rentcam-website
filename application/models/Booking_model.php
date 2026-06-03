@@ -13,6 +13,7 @@ class Booking_model extends CI_Model
         $this->db->where('status', 'pending');
         $this->db->where('deadline_bayar IS NOT NULL', null, false);
         $this->db->where('deadline_bayar <', $now);
+        $this->db->where('deleted_at IS NULL', null, false);
         $expired = $this->db->get()->result();
 
         if (empty($expired)) {
@@ -41,6 +42,7 @@ class Booking_model extends CI_Model
         $this->db->select('booking.*, users.nama as nama_user, users.email');
         $this->db->from($this->table);
         $this->db->join('users', 'users.id = booking.user_id');
+        $this->db->where('booking.deleted_at IS NULL', null, false);
         $this->db->order_by('booking.created_at', 'DESC');
         return $this->db->get()->result();
     }
@@ -55,6 +57,7 @@ class Booking_model extends CI_Model
         $this->db->join('produk', 'produk.id = booking_detail.produk_id', 'left');
         $this->db->join('review', 'review.booking_id = booking.id', 'left');
         $this->db->where('booking.user_id', $user_id);
+        $this->db->where('booking.deleted_at IS NULL', null, false);
         $this->db->group_by('booking.id');
         $this->db->order_by('booking.created_at', 'DESC');
         return $this->db->get()->result();
@@ -67,6 +70,7 @@ class Booking_model extends CI_Model
         $this->db->from($this->table);
         $this->db->join('users', 'users.id = booking.user_id');
         $this->db->where('booking.id', $id);
+        $this->db->where('booking.deleted_at IS NULL', null, false);
         return $this->db->get()->row();
     }
 
@@ -89,6 +93,7 @@ class Booking_model extends CI_Model
         $this->db->where_in('booking.status', ['pending', 'confirmed', 'dipinjam']);
         $this->db->where('booking.tanggal_mulai <', $tanggal_selesai);
         $this->db->where('booking.tanggal_selesai >', $tanggal_mulai);
+        $this->db->where('booking.deleted_at IS NULL', null, false);
         if ($exclude_booking_id) {
             $this->db->where('booking.id !=', $exclude_booking_id);
         }
@@ -119,11 +124,9 @@ class Booking_model extends CI_Model
 
     public function delete($id)
     {
-        // Delete related records to prevent orphan data
-        $this->db->where('booking_id', $id)->delete('review');
-        $this->db->where('booking_id', $id)->delete('pembayaran');
-        $this->db->where('booking_id', $id)->delete('booking_detail');
-        $this->db->where('id', $id)->delete($this->table);
+        // Soft delete: set deleted_at instead of hard deleting
+        $this->db->where('id', $id);
+        $this->db->update($this->table, ['deleted_at' => date('Y-m-d H:i:s')]);
         return true;
     }
 
@@ -147,6 +150,24 @@ class Booking_model extends CI_Model
     {
         $this->db->trans_start();
 
+        // Lock product row to prevent race condition (Pessimistic Locking)
+        $produk_id = (int) $detail_data['produk_id'];
+        $produk = $this->db->query("SELECT * FROM produk WHERE id = ? FOR UPDATE", [$produk_id])->row();
+
+        if (!$produk) {
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        // Re-calculate available stock inside transaction
+        $reserved = $this->get_reserved_qty($produk_id, $booking_data['tanggal_mulai'], $booking_data['tanggal_selesai']);
+        $stok_tersedia = max(0, $produk->stok - $reserved);
+
+        if ($detail_data['qty'] > $stok_tersedia) {
+            $this->db->trans_rollback();
+            return false; // Stok tidak cukup
+        }
+
         // 1. Insert Header
         if (empty($booking_data['deadline_bayar'])) {
             $booking_data['deadline_bayar'] = date('Y-m-d H:i:s', strtotime('+1 day'));
@@ -165,13 +186,14 @@ class Booking_model extends CI_Model
 
     public function count_all()
     {
-        return $this->db->count_all($this->table);
+        $this->db->where('deleted_at IS NULL', null, false);
+        return $this->db->count_all_results($this->table);
     }
 
     public function count_by_status($status)
     {
         $this->expire_pending();
-        return $this->db->where('status', $status)->count_all_results($this->table);
+        return $this->db->where('status', $status)->where('deleted_at IS NULL', null, false)->count_all_results($this->table);
     }
 
     public function get_recent($limit = 5)
@@ -180,6 +202,7 @@ class Booking_model extends CI_Model
         $this->db->select('booking.*, users.nama as nama_user');
         $this->db->from($this->table);
         $this->db->join('users', 'users.id = booking.user_id');
+        $this->db->where('booking.deleted_at IS NULL', null, false);
         $this->db->order_by('booking.created_at', 'DESC');
         $this->db->limit($limit);
         return $this->db->get()->result();
