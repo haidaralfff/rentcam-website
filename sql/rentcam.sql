@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS booking (
     ktp             VARCHAR(255),
     foto_penerima   VARCHAR(255),
     catatan         TEXT,
+    deleted_at      DATETIME DEFAULT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

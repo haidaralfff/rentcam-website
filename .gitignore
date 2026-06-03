@@ -1,15 +1,13 @@
 # Ignore compiled/generated folders
 system/
 vendor/
+node_modules/
 
 # Ignore uploads (user-generated files)
 assets/uploads/
 
-# Ignore environment config
+# Ignore environment config (Contains secrets)
 .env
-
-# Ignore Docker configuration
-docker-compose.yml
 
 # Ignore logs and cache
 application/logs/*
@@ -20,8 +18,8 @@ application/cache/*
 !application/cache/.gitkeep
 !assets/uploads/.gitkeep
 
-# Ignore project planning and prompts
-prompt/project_plan.md
+# Ignore project planning and AI prompts
+prompt/
 
 # Ignore large assets
 assets/mockup/
@@ -30,3 +28,17 @@ assets/picture/
 # Ignore session files
 application/session/*
 !application/session/.gitkeep
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# IDE configuration files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
