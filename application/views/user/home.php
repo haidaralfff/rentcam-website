@@ -2,8 +2,8 @@
 <?php $this->load->view('templates/navbar'); ?>
 
 <!-- Hero Section -->
-<section class="hero" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('<?= base_url('assets/picture/hero-bg.jpg') ?>');">
-    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+<section class="hero" style="position: relative; background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url('<?= base_url('assets/picture/hero-bg.jpg') ?>');">
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000" style="position: relative; z-index: 10;">
         <div class="hero-badge"><i class="fas fa-camera"></i> Platform Rental Terpercaya</div>
         <h1>Abadikan Momen<br><span>Kualitas Sinematik</span><br>Profesional</h1>
         <p>Platform sewa kamera & drone profesional terlengkap. Bebaskan kreativitas Anda dan ciptakan karya luar biasa dengan peralatan terbaik di tangan.</p>
@@ -14,11 +14,18 @@
             </a>
         </div>
     </div>
+    
+    <!-- Smooth Wave Divider -->
+    <div style="position: absolute; bottom: -1px; left: 0; width: 100%; overflow: visible; line-height: 0; z-index: 1;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none" style="display: block; width: 100%; height: 120px; filter: drop-shadow(0 -10px 15px rgba(0, 0, 0, 0.5));">
+            <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
 </section>
 
 <!-- Hero to Features Connector (Fixed Style) -->
-<div style="display:flex; flex-direction:column; align-items:center; margin-top:-50px; margin-bottom:20px; position:relative; z-index:100;" data-aos="fade-down" data-aos-duration="1200">
-    <div style="width:2px; height:80px; background:linear-gradient(to bottom, transparent, rgba(255,255,255,0.8) 50%, #2563EB); border-radius:1px;"></div>
+<div style="display:flex; flex-direction:column; align-items:center; margin-top:-30px; margin-bottom:20px; position:relative; z-index:100;" data-aos="fade-down" data-aos-duration="1200">
+    <div style="width:2px; height:80px; background:linear-gradient(to bottom, rgba(37, 99, 235, 0.2), #2563EB); border-radius:1px;"></div>
     <div style="width:10px; height:10px; background:#2563EB; border-radius:50%; box-shadow: 0 0 20px #2563EB, 0 0 40px rgba(37, 99, 235, 0.4); margin-top:-5px;"></div>
 </div>
 
@@ -224,8 +231,16 @@
 </section>
 
 <!-- Final CTA Section (Social Spotlight) -->
-<section style="padding:100px 20px; background:linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('<?= base_url('assets/picture/hero-bg.jpg') ?>'); background-size:cover; background-position:center; text-align:center;">
-    <div style="max-width:800px; margin:0 auto;" data-aos="zoom-in">
+<section style="position: relative; padding: 160px 20px 100px; background:linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('<?= base_url('assets/picture/hero-bg.jpg') ?>'); background-size:cover; background-position:center; text-align:center;">
+    
+    <!-- Smooth Top Wave Divider -->
+    <div style="position: absolute; top: -1px; left: 0; width: 100%; overflow: visible; line-height: 0; z-index: 1;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none" style="display: block; width: 100%; height: 120px; filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));">
+            <path fill="#ffffff" fill-opacity="1" d="M0,128L48,138.7C96,149,192,171,288,160C384,149,480,107,576,96C672,85,768,107,864,128C960,149,1056,171,1152,160C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+    </div>
+
+    <div style="max-width:800px; margin:0 auto; position: relative; z-index: 10;" data-aos="zoom-in">
         <h2 style="font-family:'Poppins', sans-serif; font-size:36px; font-weight:800; color:#fff; margin-bottom:16px; letter-spacing:-1px;">Wujudkan Karya Imajinasi Anda Sekarang</h2>
         <p style="color:#CBD5E1; font-size:16px; margin-bottom:40px; line-height:1.6;">Lihat hasil karya komunitas kami dan temukan inspirasi di media sosial RENTCAM.</p>
         
