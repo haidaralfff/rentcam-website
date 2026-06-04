@@ -1,5 +1,4 @@
 # Ignore compiled/generated folders
-system/
 vendor/
 node_modules/
 
