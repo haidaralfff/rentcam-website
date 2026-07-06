@@ -21,6 +21,29 @@
     --slate-900: #0F172A;
 }
 
+/* 0. Body Padding & Hero Override (Navbar custom top:20px + height:70px = 90px) */
+body {
+    padding-top: 100px;
+}
+
+@media (max-width: 991px) {
+    body {
+        padding-top: 95px;
+    }
+}
+
+.hero,
+.auth-wrapper {
+    margin-top: -100px;
+}
+
+@media (max-width: 991px) {
+    .hero,
+    .auth-wrapper {
+        margin-top: -95px;
+    }
+}
+
 /* 1. Premium Cards */
 .card-premium {
     border: none !important;

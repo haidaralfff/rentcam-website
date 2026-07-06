@@ -135,8 +135,13 @@ class Booking extends User_Controller
         $user = current_user();
         $booking = $this->Booking_model->get_by_id($id);
 
-        if (!$booking || $booking->user_id != $user['id']) {
+        if (!$booking || (int)$booking->user_id !== (int)$user['id']) {
             show_404();
+        }
+
+        if (!in_array($booking->status, ['kembali', 'batal'])) {
+            $this->session->set_flashdata('error', 'Booking yang masih aktif tidak dapat dihapus.');
+            redirect('booking/riwayat');
         }
 
         $this->Booking_model->delete($id);
