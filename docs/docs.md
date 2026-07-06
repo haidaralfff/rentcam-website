@@ -99,6 +99,28 @@ graph TD
 
 ---
 
+## 3. 🔄 State Management (Status Transaksi)
+
+Sistem melacak siklus hidup penyewaan melalui kolom `status` di tabel `booking`:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending : Booking dibuat
+    Pending --> Confirmed : Admin verifikasi pembayaran
+    Pending --> Batal : Deadline bayar lewat / ditolak admin
+    Confirmed --> Dipinjam : Admin serahkan barang
+    Dipinjam --> Kembali : Admin terima barang kembali
+    Kembali --> [*] : Selesai
+```
+
+1.  **Pending**: User sudah isi form, tapi belum bayar/verifikasi. Stok di-*hold* (soft reservation).
+2.  **Confirmed**: Admin sudah verifikasi pembayaran. Alat siap diambil.
+3.  **Dipinjam**: Alat sedang digunakan oleh penyewa (*In Progress*).
+4.  **Kembali**: Alat sudah pulang. Stok kembali bertambah secara otomatis.
+5.  **Batal**: Booking hangus (melewati *deadline* bayar 1x24 jam) atau ditolak admin.
+
+---
+
 ## 4. 🔄 Sequence Diagrams
 
 ### 4.1 Sequence Diagram: User (Proses Booking & Pembayaran)
@@ -202,18 +224,21 @@ erDiagram
         string nama
         string email
         string password
-        string role "admin/user/superadmin"
+        string role "user/admin/superadmin"
+        tinyint status "1=aktif/0=nonaktif"
         datetime created_at
     }
 
     PRODUK {
         int id PK
         string nama
-        string kategori "camera/drone"
+        string kategori "kamera/drone/aksesoris"
+        text spesifikasi
         int harga_per_hari
         int stok
         string foto
-        text spesifikasi
+        string status "tersedia/tidak_tersedia"
+        datetime created_at
     }
 
     BOOKING {
@@ -222,10 +247,15 @@ erDiagram
         date tanggal_mulai
         date tanggal_selesai
         int total_harga
+        string status "pending/confirmed/dipinjam/kembali/batal"
+        datetime deadline_bayar "1x24 jam"
         string phone
         text alamat
         string ktp
-        string status "pending/confirmed/dipinjam/kembali/batal"
+        string foto_penerima
+        text catatan
+        datetime deleted_at "soft delete"
+        datetime created_at
     }
 
     BOOKING_DETAIL {
@@ -239,26 +269,25 @@ erDiagram
     PEMBAYARAN {
         int id PK
         int booking_id FK
-        string bukti_foto
+        string metode "transfer"
+        string bukti_bayar
         string status "pending/verified/rejected"
-        datetime tgl_bayar
         text catatan_admin
+        datetime created_at
     }
 
     REVIEW {
         int id PK
-        int booking_id FK
         int user_id FK
         int produk_id FK
-        int rating
+        int booking_id FK
+        tinyint rating "1-5"
         text komentar
         datetime created_at
     }
 ```
 
 ---
-
-## 📝 Penjelasan Teknis Diagram
 
 ### Penjelasan DFD
 *   **DFD Level 0**: Menunjukkan bahwa sistem menerima input dari User (data booking), Admin (update stok), dan Super Admin (kontrol akun).
@@ -269,19 +298,11 @@ erDiagram
 *   **One-to-Many (Users-Booking)**: Satu pengguna dapat melakukan banyak transaksi penyewaan.
 *   **One-to-One (Booking-Pembayaran)**: Setiap satu ID Booking hanya memiliki satu catatan pembayaran (bukti transfer).
 *   **Master-Detail (Booking-BookingDetail)**: Memungkinkan pengembangan di masa depan jika sistem mendukung satu kali checkout untuk banyak jenis alat sekaligus (saat ini diimplementasikan 1:1 untuk kesederhanaan).
-*   **Review Relation**: Review terikat pada `booking_id` secara eksplisit dan divalidasi berdasarkan ID transaksi tersebut (bukan sekadar `produk_id`). Hal ini memastikan seorang *user* yang menyewa produk yang sama pada dua waktu berbeda dapat memberikan ulasan secara independen untuk masing-masing transaksinya.
+*   **Review Relation**: Review memiliki *unique constraint* pada pasangan `(user_id, produk_id)`, sehingga satu pengguna hanya dapat memberikan **satu ulasan per produk**. Kolom `booking_id` tetap disimpan untuk referensi transaksi, tetapi validasi duplikasi dilakukan di level user-produk.
 
 ### 🧹 Kebijakan Manajemen Data (Data Deletion)
-Sistem ini menggunakan mekanisme **Hard Delete** dengan sistem Cascade:
-1. **Cascade Deletion**: Saat data *Booking* dihapus (oleh User di menu Riwayat, atau oleh Admin), seluruh data detail yang terhubung (seperti *Booking Detail*, *Pembayaran*, dan *Review*) akan ikut dihapus dari database secara otomatis (melalui Query Builder maupun ON DELETE CASCADE di level skema).
+Sistem ini menggunakan mekanisme **Soft Delete** untuk menjaga integritas data keuangan:
+1. **Soft Delete**: Saat data *Booking* "dihapus" (oleh User di menu Riwayat, atau oleh Admin), data tidak benar-benar dihapus dari database. Kolom `deleted_at` diisi timestamp, dan seluruh query baca difilter dengan `WHERE deleted_at IS NULL`. Data tetap tersimpan utuh untuk keperluan audit dan laporan keuangan.
 2. **Physical File Deletion**: Untuk menjaga kapasitas storage, penghapusan data pembayaran dari dashboard Admin akan turut memicu fungsi *unlink()* yang menghapus file gambar bukti transfer dari direktori `/assets/uploads/`. Sama halnya dengan file *foto penerima* saat serah terima.
 
----
 
-## 🛠️ State Management (Status Transaksi)
-Sistem melacak siklus hidup penyewaan melalui kolom `status` di tabel `booking`:
-1.  **Pending**: User sudah isi form, tapi belum bayar/verifikasi.
-2.  **Confirmed**: Admin sudah verifikasi pembayaran. Alat siap diambil.
-3.  **Dipinjam**: Alat sedang digunakan oleh penyewa (InProgress).
-4.  **Kembali**: Alat sudah pulang. Stok kembali bertambah secara otomatis.
-5.  **Batal**: Booking hangus (melewati batas bayar 24 jam) atau ditolak admin.

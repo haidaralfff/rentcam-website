@@ -118,22 +118,34 @@ Sistem RENTCAM menerapkan MVC secara konsisten, dengan lapisan tambahan `core/MY
   - `Review_model.php` — Penyimpanan dan pengambilan ulasan produk.
   - `Booking_detail_model.php` — Detail item per transaksi booking.
 
+- **Helper** (`application/helpers/`): Menyediakan fungsi pendukung lintas controller.
+  - `auth_helper.php` — Normalisasi role, redirect berdasarkan role, cek session/login.
+  - `export_helper.php` — Ekspor data ke format Excel/CSV.
+  - `rupiah_helper.php` — Format mata uang (Rupiah), format tanggal Indonesia, hitung durasi sewa.
+
+- **Library** (`application/libraries/`): Konfigurasi reusable untuk fitur tertentu.
+  - `Upload_config.php` — Konfigurasi upload file KTP & bukti bayar (validasi tipe, ukuran).
+
 - **View** (`application/views/`): Menangani presentasi HTML ke pengguna, terorganisir per segmen:
   - `views/auth/` — Halaman login dan registrasi.
   - `views/user/` — Landing page, katalog produk, form booking, upload pembayaran, riwayat.
   - `views/admin/` — Panel manajemen booking, produk, verifikasi pembayaran, user.
   - `views/superadmin/` — Dashboard analitik dan laporan keuangan.
+  - `views/profile/` — Halaman manajemen profil member.
   - `views/templates/` — Layout pembungkus (header, footer, sidebar) yang di-include oleh setiap view.
+  - `views/errors/` — Halaman error kustom (404, database, dll).
 
 - **Controller** (`application/controllers/`): Memproses *request* HTTP dan mengkoordinasikan Model & View.
   - `Auth.php` — Login, Registrasi, Logout.
+  - `Home.php` — Landing page publik (hero, katalog unggulan).
   - `Booking.php` — Form booking, riwayat, hapus booking.
   - `Pembayaran.php` — Upload bukti bayar, cek status.
   - `Produk.php` — Halaman katalog publik & detail produk.
   - `Review.php` — Pengiriman ulasan produk.
   - `Profile.php` — Manajemen profil member.
+  - `Admin/Dashboard.php` — Dashboard ringkasan admin (grafik, stok rendah).
   - `Admin/Booking.php`, `Admin/Produk.php`, `Admin/Pembayaran.php`, `Admin/User.php` — Panel Admin.
-  - `Superadmin/Dashboard.php`, `Superadmin/Laporan.php` — Panel Super Admin.
+  - `Superadmin/Dashboard.php`, `Superadmin/Laporan.php`, `Superadmin/Admin.php`, `Superadmin/Setting.php` — Panel Super Admin.
 
 ### 2.3 Manajemen Basis Data MySQL
 
@@ -241,12 +253,14 @@ rentcam/
 │   │   ├── Review.php       # Ulasan produk
 │   │   ├── Profile.php      # Profil Member
 │   │   ├── Home.php         # Landing Page
-│   │   ├── Admin/           # Panel Admin (Booking, Produk, Pembayaran, User)
-│   │   └── Superadmin/      # Panel Super Admin (Dashboard, Laporan)
+│   │   ├── Admin/           # Panel Admin (Dashboard, Booking, Produk, Pembayaran, User)
+│   │   └── Superadmin/      # Panel Super Admin (Dashboard, Laporan, Admin, Setting)
 │   ├── core/
 │   │   └── MY_Controller.php  # Base RBAC: Guest, User, Admin, Superadmin Controller
 │   ├── helpers/
-│   │   └── export_helper.php  # Helper untuk ekspor CSV/Excel
+│   │   ├── auth_helper.php    # Normalisasi role & redirect berdasarkan role
+│   │   ├── export_helper.php  # Helper untuk ekspor CSV/Excel
+│   │   └── rupiah_helper.php  # Format mata uang & tanggal Indonesia
 │   ├── libraries/
 │   │   └── Upload_config.php  # Library upload KTP & bukti bayar
 │   ├── models/
@@ -317,11 +331,14 @@ Dipanggil otomatis sebelum setiap operasi baca (*get_all*, *get_by_user*, *get_b
 Menyediakan data agregat untuk dashboard Super Admin:
 
 | Fungsi | Deskripsi |
-|---|---|
+|---|---|---|
 | `get_pendapatan_bulanan($tahun)` | SUM total_harga dari pembayaran yang `verified`, dikelompokkan per bulan |
 | `get_produk_terlaris($limit)` | SUM qty booking per produk untuk status `confirmed`, `dipinjam`, `kembali` |
 | `get_booking_harian($days)` | COUNT booking per hari untuk 14 hari terakhir |
+| `get_booking_status_summary()` | COUNT booking per status (pending, confirmed, dipinjam, dll) |
+| `get_pembayaran_by_status()` | COUNT pembayaran per status (pending, verified, rejected) |
 | `get_stok_rendah($limit, $threshold)` | Daftar produk dengan stok ≤ threshold (default: 3) |
+| `get_list_tahun()` | Tahun-tahun yang memiliki transaksi verified (untuk filter dropdown) |
 | `get_summary()` | Ringkasan: total booking, user, produk, dan pendapatan kumulatif |
 
 #### 4.2.3 Controller: Pembayaran.php
